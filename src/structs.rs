@@ -16,23 +16,52 @@ pub struct Matrix<K: std::fmt::Display> {
 }
 
 impl<K: std::fmt::Display + Copy> Matrix<K> {
-    pub fn new(data: Vec<Vec<K>>) -> Self {
-        let shape: (usize, usize) = (data[0].len(), data.len());
-        let mut flat: Vec<K> = Vec::new();
-        for i in 0..shape.0 {
-            for j in 0..shape.1 {
-                flat.push(data[j][i]);
-            }
+    pub fn from_2d(data: Vec<Vec<K>>) -> Self {
+        if data.len() * data[0].len() != data.iter().flatten().count() {
+            panic!(
+                "Array of size {} cannot be reshaped to size {}",
+                data.iter().flatten().count(),
+                data.len() * data[0].len()
+            );
         }
         return Matrix {
+            shape: (data.len(), data[0].len()),
+            data: data.iter().flatten().copied().collect(),
+        };
+    }
+
+    pub fn from_1d(data: Vec<K>, shape: (usize, usize)) -> Self {
+        // Reads the data in column-major order
+        if shape.0 * shape.1 != data.len() {
+            panic!(
+                "Array of size {} cannot be reshaped to size {}",
+                data.len(),
+                shape.0 * shape.1
+            );
+        }
+
+        let mut row_major = Vec::new();
+        for i in 0..shape.0 {
+            for j in 0..shape.1 {
+                row_major.push(data[j * shape.0 + i]);
+            }
+        }
+
+        return Matrix {
             shape,
-            data: flat,
+            data: row_major,
         };
     }
 }
 
-impl<K: std::fmt::Display + std::ops::Add<Output = K> + std::ops::Sub<Output = K> + std::ops::Mul<Output = K> + Copy>
-Operations<K> for Matrix<K> {
+impl<
+        K: std::fmt::Display
+            + std::ops::Add<Output = K>
+            + std::ops::Sub<Output = K>
+            + std::ops::Mul<Output = K>
+            + Copy,
+    > Operations<K> for Matrix<K>
+{
     fn shape(&self) -> (usize, usize) {
         return self.shape;
     }
@@ -45,7 +74,7 @@ Operations<K> for Matrix<K> {
         for i in 0..self.shape.0 {
             print!("[");
             for j in 0..self.shape.1 {
-                print!("{}", self.data[j * self.shape.0 + i]);
+                print!("{}", self.data[i * self.shape.1 + j]);
                 if j < self.shape.1 - 1 {
                     print!(", ");
                 }
@@ -102,7 +131,6 @@ Operations<K> for Matrix<K> {
     }
 }
 
-
 // VECTOR
 
 pub struct Vector<K: std::fmt::Display> {
@@ -110,16 +138,24 @@ pub struct Vector<K: std::fmt::Display> {
 }
 
 impl<K: std::fmt::Display + Copy> Vector<K> {
-    pub fn new(data: Vec<K>) -> Self {
-        let matrix = Matrix::new(vec![data]);
+    pub fn from_1d(data: Vec<K>) -> Self {
         return Vector {
-            matrix,
+            matrix: Matrix::from_1d(
+                data.clone(),
+                (data.len(), 1),
+            ),
         };
     }
 }
 
-impl<K: std::fmt::Display + std::ops::Add<Output = K> + std::ops::Sub<Output = K> + std::ops::Mul<Output = K> + Copy>
-Operations<K> for Vector<K> {
+impl<
+        K: std::fmt::Display
+            + std::ops::Add<Output = K>
+            + std::ops::Sub<Output = K>
+            + std::ops::Mul<Output = K>
+            + Copy,
+    > Operations<K> for Vector<K>
+{
     fn shape(&self) -> (usize, usize) {
         return self.matrix.shape();
     }
