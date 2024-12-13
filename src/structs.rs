@@ -54,6 +54,13 @@ impl<K: std::fmt::Display + Copy> Matrix<K> {
             data: row_major,
         };
     }
+
+    pub fn clone(&self) -> Self {
+        return Matrix {
+            shape: self.shape,
+            data: self.data.clone(),
+        };
+    }
 }
 
 // Operations
@@ -154,6 +161,12 @@ impl<K: std::fmt::Display + Copy> Vector<K> {
                 data.clone(),
                 (data.len(), 1),
             ),
+        };
+    }
+
+    pub fn clone(&self) -> Self {
+        return Vector {
+            matrix: self.matrix.clone(),
         };
     }
 }
