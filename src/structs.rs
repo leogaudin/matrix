@@ -2,7 +2,6 @@ use std::fmt;
 pub trait Operations<K> {
     fn shape(&self) -> (usize, usize);
     fn is_square(&self) -> bool;
-    fn print(&self);
     fn reshape(&mut self, shape: (usize, usize));
     fn add(&mut self, v: &Self);
     fn sub(&mut self, v: &Self);
@@ -72,21 +71,6 @@ impl<
 
     fn is_square(&self) -> bool {
         return self.shape.0 == self.shape.1;
-    }
-
-    fn print(&self) {
-        for i in 0..self.shape.0 {
-            print!("[");
-            for j in 0..self.shape.1 {
-                print!("{}", self.data[i * self.shape.1 + j]);
-                if j < self.shape.1 - 1 {
-                    print!(", ");
-                }
-            }
-            print!("]");
-            println!();
-        }
-        println!();
     }
 
     fn reshape(&mut self, shape: (usize, usize)) {
@@ -189,10 +173,6 @@ impl<
 
     fn is_square(&self) -> bool {
         return self.matrix.is_square();
-    }
-
-    fn print(&self) {
-        self.matrix.print();
     }
 
     fn reshape(&mut self, shape: (usize, usize)) {
