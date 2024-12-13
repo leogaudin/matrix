@@ -1,3 +1,4 @@
+use std::fmt;
 pub trait Operations<K> {
     fn shape(&self) -> (usize, usize);
     fn is_square(&self) -> bool;
@@ -10,11 +11,13 @@ pub trait Operations<K> {
 
 // MATRIX
 
+// Struct
 pub struct Matrix<K: std::fmt::Display> {
     shape: (usize, usize),
     data: Vec<K>,
 }
 
+// Constructors
 impl<K: std::fmt::Display + Copy> Matrix<K> {
     pub fn from_2d(data: Vec<Vec<K>>) -> Self {
         if data.len() * data[0].len() != data.iter().flatten().count() {
@@ -54,6 +57,7 @@ impl<K: std::fmt::Display + Copy> Matrix<K> {
     }
 }
 
+// Operations
 impl<
         K: std::fmt::Display
             + std::ops::Add<Output = K>
@@ -131,12 +135,34 @@ impl<
     }
 }
 
+// print! and println!
+impl<K: std::fmt::Display> fmt::Display for Matrix<K> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        for i in 0..self.shape.0 {
+            write!(f, "[")?;
+            for j in 0..self.shape.1 {
+                write!(f, "{}", self.data[i * self.shape.1 + j])?;
+                if j < self.shape.1 - 1 {
+                    write!(f, ", ")?;
+                }
+            }
+            write!(f, "]")?;
+            if i < self.shape.0 - 1 {
+                writeln!(f)?;
+            }
+        }
+        Ok(())
+    }
+}
+
 // VECTOR
 
+// Struct
 pub struct Vector<K: std::fmt::Display> {
     matrix: Matrix<K>,
 }
 
+// Constructors
 impl<K: std::fmt::Display + Copy> Vector<K> {
     pub fn from_1d(data: Vec<K>) -> Self {
         return Vector {
@@ -148,6 +174,7 @@ impl<K: std::fmt::Display + Copy> Vector<K> {
     }
 }
 
+// Operations
 impl<
         K: std::fmt::Display
             + std::ops::Add<Output = K>
@@ -182,5 +209,12 @@ impl<
 
     fn scl(&mut self, a: K) {
         self.matrix.scl(a);
+    }
+}
+
+// print! and println!
+impl<K: std::fmt::Display> fmt::Display for Vector<K> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.matrix)
     }
 }
