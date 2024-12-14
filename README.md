@@ -58,7 +58,7 @@ $$
 >
 > Maximum space complexity : $O(n)$
 
-Interpolating two numbers $u$ and $v$ with a factor $t$ (being $0 \leq t \leq 1$) means vulgarly **finding the number that is $t$ percent between $u$ and $v$**.
+Interpolating two numbers $u$ and $v$ with a factor $t$ (being $0 \leq t \leq 1$) vulgarly means **finding the number that is $t$ percent between $u$ and $v$**.
 
 For example, $\text{lerp}(1, 3, 0.5) = 2$, because $2$ is halfway between $1$ and $3$. Simple.
 
