@@ -1,4 +1,4 @@
-use std::fmt;
+use std::{fmt, ops};
 pub trait Operations<K> {
     fn shape(&self) -> (usize, usize);
     fn is_square(&self) -> bool;
@@ -16,9 +16,9 @@ pub struct Matrix<K: std::fmt::Display> {
     data: Vec<K>,
 }
 
-// Constructors
-impl<K: std::fmt::Display + Copy> Matrix<K> {
-    pub fn from_2d(data: Vec<Vec<K>>) -> Self {
+// From 2D
+impl<K: std::fmt::Display + Copy> From<Vec<Vec<K>>> for Matrix<K> {
+    fn from(data: Vec<Vec<K>>) -> Self {
         if data.len() * data[0].len() != data.iter().flatten().count() {
             panic!(
                 "Array of size {} cannot be reshaped to size {}",
@@ -31,34 +31,99 @@ impl<K: std::fmt::Display + Copy> Matrix<K> {
             data: data.iter().flatten().copied().collect(),
         };
     }
+}
 
-    pub fn from_1d(data: Vec<K>, shape: (usize, usize)) -> Self {
+// From 1D
+impl<K: std::fmt::Display + Copy> From<(Vec<K>, (usize, usize))> for Matrix<K> {
+    fn from(data: (Vec<K>, (usize, usize))) -> Self {
         // Reads the data in column-major order
-        if shape.0 * shape.1 != data.len() {
+        if data.1 .0 * data.1 .1 != data.0.len() {
             panic!(
                 "Array of size {} cannot be reshaped to size {}",
-                data.len(),
-                shape.0 * shape.1
+                data.0.len(),
+                data.1 .0 * data.1 .1
             );
         }
 
         let mut row_major = Vec::new();
-        for i in 0..shape.0 {
-            for j in 0..shape.1 {
-                row_major.push(data[j * shape.0 + i]);
+        for i in 0..data.1 .0 {
+            for j in 0..data.1 .1 {
+                row_major.push(data.0[j * data.1 .0 + i]);
             }
         }
 
         return Matrix {
-            shape,
+            shape: data.1,
             data: row_major,
         };
     }
+}
 
-    pub fn clone(&self) -> Self {
+// Clone
+impl<K: std::fmt::Display + Copy> Clone for Matrix<K> {
+    fn clone(&self) -> Self {
         return Matrix {
             shape: self.shape,
             data: self.data.clone(),
+        };
+    }
+}
+
+// Addition overload
+impl<K: std::fmt::Display + ops::Add<Output = K> + Copy> ops::Add for Matrix<K> {
+    type Output = Self;
+
+    fn add(self, v: Self) -> Self {
+        if self.shape != v.shape {
+            panic!("Shapes {:?} and {:?} are incompatible", self.shape, v.shape);
+        }
+
+        let mut new_data = Vec::new();
+        for i in 0..self.data.len() {
+            new_data.push(self.data[i] + v.data[i]);
+        }
+
+        return Matrix {
+            shape: self.shape,
+            data: new_data,
+        };
+    }
+}
+
+// Subtraction overload
+impl<K: std::fmt::Display + ops::Sub<Output = K> + Copy> ops::Sub for Matrix<K> {
+    type Output = Self;
+
+    fn sub(self, v: Self) -> Self {
+        if self.shape != v.shape {
+            panic!("Shapes {:?} and {:?} are incompatible", self.shape, v.shape);
+        }
+
+        let mut new_data = Vec::new();
+        for i in 0..self.data.len() {
+            new_data.push(self.data[i] - v.data[i]);
+        }
+
+        return Matrix {
+            shape: self.shape,
+            data: new_data,
+        };
+    }
+}
+
+// Scalar multiplication overload
+impl<K: std::fmt::Display + ops::Mul<Output = K> + Copy> ops::Mul<K> for Matrix<K> {
+    type Output = Self;
+
+    fn mul(self, a: K) -> Self {
+        let mut new_data = Vec::new();
+        for i in 0..self.data.len() {
+            new_data.push(self.data[i] * a);
+        }
+
+        return Matrix {
+            shape: self.shape,
+            data: new_data,
         };
     }
 }
@@ -153,21 +218,51 @@ pub struct Vector<K: std::fmt::Display> {
     matrix: Matrix<K>,
 }
 
-// Constructors
-impl<K: std::fmt::Display + Copy> Vector<K> {
-    pub fn from_1d(data: Vec<K>) -> Self {
+// From 1D
+impl<K: std::fmt::Display + Copy> From<Vec<K>> for Vector<K> {
+    fn from(data: Vec<K>) -> Self {
         return Vector {
-            matrix: Matrix::from_1d(
-                data.clone(),
-                (data.len(), 1),
-            ),
+            matrix: Matrix::from((data.clone(), (data.len(), 1))),
         };
     }
+}
 
-    pub fn clone(&self) -> Self {
+// Clone
+impl<K: std::fmt::Display + Copy> Clone for Vector<K> {
+    fn clone(&self) -> Self {
         return Vector {
             matrix: self.matrix.clone(),
         };
+    }
+}
+
+// Addition overload
+impl<K: std::fmt::Display + ops::Add<Output = K> + Copy> ops::Add for Vector<K> {
+    type Output = Self;
+
+    fn add(self, v: Self) -> Self {
+        let new_matrix = self.matrix + v.matrix;
+        return Vector { matrix: new_matrix };
+    }
+}
+
+// Subtraction overload
+impl<K: std::fmt::Display + ops::Sub<Output = K> + Copy> ops::Sub for Vector<K> {
+    type Output = Self;
+
+    fn sub(self, v: Self) -> Self {
+        let new_matrix = self.matrix - v.matrix;
+        return Vector { matrix: new_matrix };
+    }
+}
+
+// Scalar multiplication overload
+impl<K: std::fmt::Display + ops::Mul<Output = K> + Copy> ops::Mul<K> for Vector<K> {
+    type Output = Self;
+
+    fn mul(self, a: K) -> Self {
+        let new_matrix = self.matrix * a;
+        return Vector { matrix: new_matrix };
     }
 }
 
