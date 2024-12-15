@@ -1,12 +1,4 @@
 use std::{fmt, ops};
-pub trait Operations<K> {
-    fn shape(&self) -> (usize, usize);
-    fn is_square(&self) -> bool;
-    fn reshape(&mut self, shape: (usize, usize));
-    fn add(&mut self, v: &Self);
-    fn sub(&mut self, v: &Self);
-    fn scl(&mut self, a: K);
-}
 
 // MATRIX
 
@@ -135,17 +127,21 @@ impl<
             + std::ops::Sub<Output = K>
             + std::ops::Mul<Output = K>
             + Copy,
-    > Operations<K> for Matrix<K>
+    > Matrix<K>
 {
-    fn shape(&self) -> (usize, usize) {
+    pub fn shape(&self) -> (usize, usize) {
         return self.shape;
     }
 
-    fn is_square(&self) -> bool {
+    pub fn flat(&self) -> Vec<K> {
+        return self.data.clone();
+    }
+
+    pub fn is_square(&self) -> bool {
         return self.shape.0 == self.shape.1;
     }
 
-    fn reshape(&mut self, shape: (usize, usize)) {
+    pub fn reshape(&mut self, shape: (usize, usize)) {
         if shape.0 * shape.1 != self.shape.0 * self.shape.1 {
             panic!(
                 "Array of size {} cannot be reshaped to size {}",
@@ -156,7 +152,7 @@ impl<
         self.shape = shape;
     }
 
-    fn add(&mut self, v: &Matrix<K>) {
+    pub fn add(&mut self, v: &Matrix<K>) {
         if self.shape != v.shape() {
             panic!(
                 "Shapes {:?} and {:?} are incompatible",
@@ -170,7 +166,7 @@ impl<
         }
     }
 
-    fn sub(&mut self, v: &Matrix<K>) {
+    pub fn sub(&mut self, v: &Matrix<K>) {
         if self.shape != v.shape() {
             panic!(
                 "Shapes {:?} and {:?} are incompatible",
@@ -184,7 +180,7 @@ impl<
         }
     }
 
-    fn scl(&mut self, a: K) {
+    pub fn scl(&mut self, a: K) {
         for i in 0..self.data.len() {
             self.data[i] = self.data[i] * a;
         }
@@ -273,30 +269,53 @@ impl<
             + std::ops::Sub<Output = K>
             + std::ops::Mul<Output = K>
             + Copy,
-    > Operations<K> for Vector<K>
+    > Vector<K>
 {
-    fn shape(&self) -> (usize, usize) {
+    pub fn shape(&self) -> (usize, usize) {
         return self.matrix.shape();
     }
 
-    fn is_square(&self) -> bool {
+    pub fn flat(&self) -> Vec<K> {
+        return self.matrix.flat();
+    }
+
+    pub fn is_square(&self) -> bool {
         return self.matrix.is_square();
     }
 
-    fn reshape(&mut self, shape: (usize, usize)) {
+    pub fn reshape(&mut self, shape: (usize, usize)) {
         self.matrix.reshape(shape);
     }
 
-    fn add(&mut self, v: &Vector<K>) {
+    pub fn add(&mut self, v: &Vector<K>) {
         self.matrix.add(&v.matrix);
     }
 
-    fn sub(&mut self, v: &Vector<K>) {
+    pub fn sub(&mut self, v: &Vector<K>) {
         self.matrix.sub(&v.matrix);
     }
 
-    fn scl(&mut self, a: K) {
+    pub fn scl(&mut self, a: K) {
         self.matrix.scl(a);
+    }
+
+    pub fn dot(&self, v: Vector::<K>) -> K {
+        if self.shape() != v.shape() || self.flat().len() != v.flat().len() {
+            panic!(
+                "Shapes {:?} and {:?} are incompatible",
+                self.shape(),
+                v.shape()
+            );
+        }
+        let u = self.flat();
+        let v = v.flat();
+
+        let mut sum = u[0] * v[0];
+        for i in 1..self.flat().len() {
+            sum = sum + u[i] * v[i];
+        }
+
+        return sum;
     }
 }
 

@@ -1,6 +1,6 @@
 #[path = "./structs.rs"]
 mod structs;
-use structs::{Matrix, Vector, Operations};
+use structs::{Matrix, Vector};
 use colored::*;
 
 pub fn test_00() {

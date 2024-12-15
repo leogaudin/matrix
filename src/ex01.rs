@@ -1,6 +1,6 @@
 #[path = "./structs.rs"]
 mod structs;
-use structs::{Matrix, Operations, Vector};
+use structs::Vector;
 
 pub fn linear_combination<
 K: std::fmt::Display

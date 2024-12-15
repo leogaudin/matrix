@@ -5,9 +5,12 @@ mod ex01;
 use ex01::test_01;
 mod ex02;
 use ex02::test_02;
+mod ex03;
+use ex03::test_03;
 
 fn main() {
     test_00();
     test_01();
     test_02();
+    test_03();
 }
