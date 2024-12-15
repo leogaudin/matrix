@@ -153,6 +153,18 @@ As the subject says, *"use the functions you wrote during the two previous exerc
 
 ### 06 - Cross product
 
+> ```rust
+> fn cross_product::<K>(u: &Vector::<K>, v: &Vector::<K>) -> Vector::<K>;
+> ```
+
+The cross product of two vectors outputs a vector that is perpendicular to the plane formed by the two vectors.
+
+For example, the cross product of $\begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix}$ and $\begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}$ is $\begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix}$, because the two vectors form the $xy$ plane, and the cross product points in the $z$ direction.
+
+The cross product is only defined for two $(3, 1)$ vectors, and the formula can be found in the *Cross product* [Wikipedia page](https://en.wikipedia.org/wiki/Cross_product#Matrix_notation).
+
+However, it has other interesting properties, have a look at the [Cross product](https://www.youtube.com/watch?v=eu6i7WJeinw) video of the *Essence of Linear Algebra* series.
+
 ## Resources
 
 - [📺 YouTube − The Lp Norm for Vectors and Functions](https://www.youtube.com/watch?v=NKuLYRui-NU)
