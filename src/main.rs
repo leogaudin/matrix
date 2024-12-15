@@ -11,6 +11,8 @@ mod ex04;
 use ex04::test_04;
 mod ex05;
 use ex05::test_05;
+mod ex06;
+use ex06::test_06;
 
 fn main() {
     test_00();
@@ -19,4 +21,5 @@ fn main() {
     test_03();
     test_04();
     test_05();
+    test_06();
 }

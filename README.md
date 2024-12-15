@@ -156,5 +156,5 @@ As the subject says, *"use the functions you wrote during the two previous exerc
 ## Resources
 
 - [📺 YouTube − The Lp Norm for Vectors and Functions](https://www.youtube.com/watch?v=NKuLYRui-NU)
+- [📖 Wikipedia − Cross product (Matrix notation)](https://en.wikipedia.org/wiki/Cross_product#Matrix_notation)
 - [💬]()
-- [📖]()
