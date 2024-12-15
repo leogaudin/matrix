@@ -42,29 +42,7 @@ This exercise is pretty straightforward:
 
 Linear combination is the result of **adding the result of multiplying each vector by its corresponding coefficient**.
 
-For example, the linear combination of the vectors $[1, 2]$ and $[3, 4]$ with the coefficients $2$ and $3$ respectively is:
-
-$$
-2
-\cdot
-\begin{bmatrix}
-1 \\ 2
-\end{bmatrix}
-+ 3
-\cdot
-\begin{bmatrix}
-3 \\ 4
-\end{bmatrix}
-= \begin{bmatrix}
-2 \\ 4
-\end{bmatrix}
-+ \begin{bmatrix}
-9 \\ 12
-\end{bmatrix}
-= \begin{bmatrix}
-11 \\ 16
-\end{bmatrix}
-$$
+For example, the linear combination of the vectors $[1, 2]$ and $[3, 4]$ with the coefficients $2$ and $3$ is the vector $[11, 16]$:
 
 ### 02 - Linear interpolation
 
