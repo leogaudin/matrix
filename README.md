@@ -45,7 +45,25 @@ Linear combination is the result of **adding the result of multiplying each vect
 For example, the linear combination of the vectors $[1, 2]$ and $[3, 4]$ with the coefficients $2$ and $3$ respectively is:
 
 $$
-2 \begin{bmatrix} 1 \\ 2 \end{bmatrix} + 3 \begin{bmatrix} 3 \\ 4 \end{bmatrix} = \begin{bmatrix} 2 \\ 4 \end{bmatrix} + \begin{bmatrix} 9 \\ 12 \end{bmatrix} = \begin{bmatrix} 11 \\ 16 \end{bmatrix}
+2
+\cdot
+\begin{bmatrix}
+1 \\ 2
+\end{bmatrix}
++ 3
+\cdot
+\begin{bmatrix}
+3 \\ 4
+\end{bmatrix}
+= \begin{bmatrix}
+2 \\ 4
+\end{bmatrix}
++ \begin{bmatrix}
+9 \\ 12
+\end{bmatrix}
+= \begin{bmatrix}
+11 \\ 16
+\end{bmatrix}
 $$
 
 ### 02 - Linear interpolation
@@ -107,7 +125,21 @@ With all these tips, you should be able to implement `lerp` in one line!
 
 The dot product of two vectors is the sum-product of their corresponding elements.
 
-For example, $\begin{bmatrix} 1 \\ 2 \end{bmatrix} \cdot \begin{bmatrix} 3 \\ 4 \end{bmatrix} = 1 \times 3 + 2 \times 4 = 11$. Simple.
+For example:
+
+$$
+\begin{bmatrix}
+1 \\ 2
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+3 \\ 4
+\end{bmatrix}
+= 1 \times 3 + 2 \times 4
+= 11
+$$
+
+Simple.
 
 ### 04 - Norm
 
@@ -159,7 +191,24 @@ As the subject says, *"use the functions you wrote during the two previous exerc
 
 The cross product of two vectors outputs a vector that is perpendicular to the plane formed by the two vectors.
 
-For example, the cross product of $\begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix}$ and $\begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}$ is $\begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix}$, because the two vectors form the $xy$ plane, and the cross product points in the $z$ direction.
+<!-- For example, the cross product of $\begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix}$ and $\begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}$ is $\begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix}$, because the two vectors form the $xy$ plane, and the cross product points in the $z$ direction. -->
+
+For example:
+
+$$
+\begin{bmatrix}
+1 \\ 0 \\ 0
+\end{bmatrix}
+\times
+\begin{bmatrix}
+0 \\ 1 \\ 0
+\end{bmatrix}
+= \begin{bmatrix}
+0 \\ 0 \\ 1
+\end{bmatrix}
+$$
+
+Here the two vectors form the $xy$ plane, and the cross product points in the $z$ direction.
 
 The cross product is only defined for two $(3, 1)$ vectors, and the formula can be found in the *Cross product* [Wikipedia page](https://en.wikipedia.org/wiki/Cross_product#Matrix_notation).
 
