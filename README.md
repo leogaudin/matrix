@@ -93,8 +93,68 @@ If you implemented well the previous exercises, this one should be a piece of ca
 
 With all these tips, you should be able to implement `lerp` in one line!
 
+### 03 - Dot product
+
+> ```rust
+> impl<K> Vector::<K> {
+>   fn dot::<K>(&self, v: Vector::<K>) -> K;
+> }
+> ```
+>
+> Maximum time complexity : $O(n)$
+>
+> Maximum space complexity : $O(n)$
+
+The dot product of two vectors is the sum-product of their corresponding elements.
+
+For example, $\begin{bmatrix} 1 \\ 2 \end{bmatrix} \cdot \begin{bmatrix} 3 \\ 4 \end{bmatrix} = 1 \times 3 + 2 \times 4 = 11$. Simple.
+
+### 04 - Norm
+
+> ```rust
+> impl<K> Vector::<K> {
+>   fn norm_1(&self) -> f32;
+>   fn norm(&self) -> f32;
+>   fn norm_inf(&self) -> f32;
+> }
+> ```
+>
+> Maximum time complexity : $O(n)$
+>
+> Maximum space complexity : $O(n)$
+
+The norms to implement are:
+
+- **$l_1$ norm**: $\|v\|_1$ (also called the Taxicab norm or Manhattan norm)
+    - **Definition**: the sum of the absolute values of the elements of the vector.
+    - **Geometry**: the distance traveled if you can only move along the axes.
+
+- **$l_2$ norm**: $\|v\|$ or $\|v\|_2$ (also called the Euclidean norm)
+    - **Definition**: the square root of the sum of the squares of the elements of the vector.
+    - **Geometry**: the length of the vector.
+
+- **$l_\infty$ norm**: $\|v\|_\infty$ (also called the supremum norm or uniform norm)
+    - **Definition**: the maximum absolute value of the elements of the vector.
+    - **Geometry**: the maximum distance traveled along one axis. For example, if your vector travels 3 units along $x$ and 4 units along the $y$, the $l_\infty$ norm would be 4.
+
+### 05 - Cosine
+
+> ```rust
+> fn angle_cos::<K>(u: &Vector::<K>, v: &Vector::<K>) -> f32;
+> ```
+>
+> Maximum time complexity : $O(n)$
+>
+> Maximum space complexity : $O(n)$
+
+The cosine of the angle between two vectors is the dot product of the two vectors divided by the product of their norms. Simple.
+
+As the subject says, *"use the functions you wrote during the two previous exercises"*.
+
+### 06 - Cross product
+
 ## Resources
 
-- [📺 ]()
+- [📺 YouTube − The Lp Norm for Vectors and Functions](https://www.youtube.com/watch?v=NKuLYRui-NU)
 - [💬]()
 - [📖]()

@@ -1,5 +1,9 @@
 use std::{fmt, ops};
 
+pub fn to_f32<K: std::fmt::Display>(a: K) -> f32 {
+    return a.to_string().parse::<f32>().unwrap();
+}
+
 // MATRIX
 
 // Struct
@@ -299,7 +303,7 @@ impl<
         self.matrix.scl(a);
     }
 
-    pub fn dot(&self, v: Vector::<K>) -> K {
+    pub fn dot(&self, v: Vector::<K>) -> f32 {
         if self.shape() != v.shape() || self.flat().len() != v.flat().len() {
             panic!(
                 "Shapes {:?} and {:?} are incompatible",
@@ -310,12 +314,39 @@ impl<
         let u = self.flat();
         let v = v.flat();
 
-        let mut sum = u[0] * v[0];
+        let mut sum: f32 = to_f32(u[0] * v[0]);
         for i in 1..self.flat().len() {
-            sum = sum + u[i] * v[i];
+            sum = sum + to_f32(u[i] * v[i]);
         }
 
         return sum;
+    }
+
+    pub fn norm_1(&self) -> f32 { // Manhattan
+        let mut sum = to_f32(self.matrix.data[0]).abs();
+        for i in 1..self.flat().len() {
+            sum = sum + to_f32(self.matrix.data[i]).abs();
+        }
+        return sum;
+    }
+
+    pub fn norm(&self) -> f32 { // Euclidian
+        let mut squared_sum = to_f32(self.matrix.data[0]).powi(2);
+        for i in 1..self.flat().len() {
+            squared_sum = squared_sum + to_f32(self.matrix.data[i]).powi(2);
+        }
+        return squared_sum.powf(0.5);
+    }
+
+    pub fn norm_inf(&self) -> f32 { // Supremum
+        let mut max = to_f32(self.matrix.data[0]).abs();
+        for i in 1..self.flat().len() {
+            let abs = to_f32(self.matrix.data[i]).abs();
+            if abs > max {
+                max = abs;
+            }
+        }
+        return max;
     }
 }
 
