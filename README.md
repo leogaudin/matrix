@@ -9,6 +9,13 @@
 ## Table of Contents
 
 - [Exercises](#exercises) 🏋🏻
+    - [00 - Add, Subtract and Scale](#00---add-subtract-and-scale)
+    - [01 - Linear combination](#01---linear-combination)
+    - [02 - Linear interpolation](#02---linear-interpolation)
+    - [03 - Dot product](#03---dot-product)
+    - [04 - Norm](#04---norm)
+    - [05 - Cosine](#05---cosine)
+    - [06 - Cross product](#06---cross-product)
 - [Resources](#resources) 📖
 
 ## Exercises
@@ -42,7 +49,7 @@ This exercise is pretty straightforward:
 
 Linear combination is the result of **adding the result of multiplying each vector by its corresponding coefficient**.
 
-For example, the linear combination of the vectors $[1, 2]$ and $[3, 4]$ with the coefficients $2$ and $3$ is the vector $[11, 16]$:
+For example, the linear combination of the vectors $[1, 2]$ and $[3, 4]$ with the coefficients $2$ and $3$ is the vector $[11, 16]$.
 
 ### 02 - Linear interpolation
 
