@@ -17,6 +17,8 @@
     - [05 - Cosine](#05---cosine)
     - [06 - Cross product](#06---cross-product)
     - [07 - Matrix multiplication](#07---matrix-multiplication)
+    - [08 - Trace](#08---trace)
+    - [09 - Transpose](#09---transpose)
 - [Resources](#resources) 📖
 
 ## Exercises
@@ -72,7 +74,9 @@ With vectors, it is easier to visualize. Finding the linear interpolation betwee
 2. Finding the point that is $t$ percent between the two extremities.
 3. Create a vector that points to there.
 
-![lerp](./assets/lerp.gif)
+<p align="center">
+    <img src="./assets/lerp.gif" alt="lerp" width="auto"/>
+</p>
 
 Here, $V_t = \text{lerp}(u, v, t)$ points at the point that is $t\%$ between $u$ and $v$.
 
@@ -177,8 +181,6 @@ As the subject says, *"use the functions you wrote during the two previous exerc
 
 The cross product of two vectors outputs a vector that is perpendicular to the plane formed by the two vectors.
 
-<!-- For example, the cross product of $\begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix}$ and $\begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}$ is $\begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix}$, because the two vectors form the $xy$ plane, and the cross product points in the $z$ direction. -->
-
 For example:
 
 $$
@@ -223,7 +225,9 @@ For a matrix $A$ of shape $(m, n)$ and a vector $v$ of length $n$, the product $
 
 Each element of the resulting vector is multiplied by the corresponding column of the matrix, and then summed.
 
-![mat_vec](./assets/mat_vec.webp)
+<p align="center">
+    <img src="./assets/mat_vec.webp" alt="mat_vec" width="auto"/>
+</p>
 
 > *Here is a visual representation of the matrix-vector multiplication, from the Essence of linear algebra series. Watch the [full video](https://www.youtube.com/watch?v=XkY2DOUCWMU).*
 
@@ -281,7 +285,9 @@ The transpose of a matrix is the result of mirroring the matrix, along its main 
 
 It can also be seen as the result of swapping the rows and columns of the matrix.
 
-![transpose](./assets/transpose.webp)
+<p align="center">
+    <img src="./assets/transpose.webp" alt="transpose" width="auto"/>
+</p>
 
 Implementing it is simply two nested loops, swapping the elements of the matrix.
 
