@@ -237,6 +237,54 @@ It would not be wise to give you more than this explanation, so once again, watc
 
 > 💡 Depending on your implementation, it might be a good choice to implement the **transpose** operation now instead of when you reach ex09.
 
+### 08 - Trace
+
+> ```rust
+> fn trace(&self) -> K;
+> ```
+>
+> Maximum time complexity : $O(n)$
+>
+> Maximum space complexity : N/A
+
+The trace of a square matrix is the sum of the elements on the main diagonal.
+
+For example:
+
+$$
+\text{trace}
+\left(
+    \begin{bmatrix}
+    1 & 2 & 3 \\
+    4 & 5 & 6 \\
+    7 & 8 & 9
+    \end{bmatrix}
+\right)
+= 1 + 5 + 9 = 15
+$$
+
+Pretty simple, right?
+
+It is a component of more complex, interesting concepts, check out [this video](https://www.youtube.com/watch?v=PFDu9oVAE-g) for more information.
+
+### 09 - Transpose
+
+> ```rust
+> fn transpose(&self) -> Matrix<K>;
+> ```
+>
+> Maximum time complexity : $O(nm)$
+>
+> Maximum space complexity : $O(nm)$
+
+The transpose of a matrix is the result of mirroring the matrix, along its main diagonal for a square matrix.
+
+It can also be seen as the result of swapping the rows and columns of the matrix.
+
+![transpose](./assets/transpose.webp)
+
+Implementing it is simply two nested loops, swapping the elements of the matrix.
+
 ## Resources
 
 - [📺 YouTube − The Lp Norm for Vectors and Functions](https://www.youtube.com/watch?v=NKuLYRui-NU)

@@ -286,6 +286,19 @@ impl<
         matrix.transpose();
         return matrix;
     }
+
+    // Time: O(n) − Space: 0(1)
+    pub fn trace(&self) -> K {
+        if !self.is_square() {
+            panic!("The matrix is not square");
+        }
+
+        let mut sum = self.data[0];
+        for i in 1..self.shape.0 {
+            sum = sum + self.data[i * self.shape.0 + i];
+        }
+        return sum;
+    }
 }
 
 // print! and println!
