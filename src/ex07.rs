@@ -1,7 +1,5 @@
 #[path = "./structs.rs"]
 mod structs;
-use std::vec;
-
 use structs::{Vector, Matrix};
 
 pub fn test_07() {
