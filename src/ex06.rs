@@ -35,19 +35,19 @@ pub fn test_06() {
     let u = Vector::from(vec![0., 0., 1.]);
     let v = Vector::from(vec![1., 0., 0.]);
     println!("{}\n", cross_product(&u, &v));
-    // vec![0.]
-    // vec![1.]
-    // vec![0.]
+    // [0.]
+    // [1.]
+    // [0.]
     let u = Vector::from(vec![1., 2., 3.]);
     let v = Vector::from(vec![4., 5., 6.]);
     println!("{}\n", cross_product(&u, &v));
-    // vec![-3.]
-    // vec![6.]
-    // vec![-3.]
+    // [-3.]
+    // [6.]
+    // [-3.]
     let u = Vector::from(vec![4., 2., -3.]);
     let v = Vector::from(vec![-2., -5., 16.]);
     println!("{}\n", cross_product(&u, &v));
-    // vec![17.]
-    // vec![-58.]
-    // vec![-16.]
+    // [17.]
+    // [-58.]
+    // [-16.]
 }
