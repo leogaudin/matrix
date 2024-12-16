@@ -271,7 +271,6 @@ impl<
 
         for j in 0..mat_shape.1 {
             let mut column: Vec<K> = Vec::new();
-            println!("Column:");
             for i in 0..mat_shape.0 {
                 column.push(mat_flat[i * mat_shape.1 + j]);
             }

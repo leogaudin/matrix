@@ -40,7 +40,7 @@ This exercise is pretty straightforward:
 ### 01 - Linear combination
 
 > ```rust
-> fn linear_combination::<K>(u: &[Vector<K>], coefs: &[K]) -> Vector<K>;
+> fn linear_combination<K>(u: &[Vector<K>], coefs: &[K]) -> Vector<K>;
 > ```
 >
 > Maximum time complexity : $O(n)$
@@ -54,7 +54,7 @@ For example, the linear combination of the vectors $[1, 2]$ and $[3, 4]$ with th
 ### 02 - Linear interpolation
 
 > ```rust
-> fn lerp::<V>(u: V, v: V, t: f32) -> V;
+> fn lerp<V>(u: V, v: V, t: f32) -> V;
 > ```
 >
 > Maximum time complexity : $O(n)$
@@ -99,8 +99,8 @@ With all these tips, you should be able to implement `lerp` in one line!
 ### 03 - Dot product
 
 > ```rust
-> impl<K> Vector::<K> {
->   fn dot::<K>(&self, v: Vector::<K>) -> K;
+> impl<K> Vector<K> {
+>   fn dot<K>(&self, v: Vector<K>) -> K;
 > }
 > ```
 >
@@ -129,7 +129,7 @@ Simple.
 ### 04 - Norm
 
 > ```rust
-> impl<K> Vector::<K> {
+> impl<K> Vector<K> {
 >   fn norm_1(&self) -> f32;
 >   fn norm(&self) -> f32;
 >   fn norm_inf(&self) -> f32;
@@ -157,7 +157,7 @@ The norms to implement are:
 ### 05 - Cosine
 
 > ```rust
-> fn angle_cos::<K>(u: &Vector::<K>, v: &Vector::<K>) -> f32;
+> fn angle_cos<K>(u: &Vector<K>, v: &Vector<K>) -> f32;
 > ```
 >
 > Maximum time complexity : $O(n)$
@@ -171,7 +171,7 @@ As the subject says, *"use the functions you wrote during the two previous exerc
 ### 06 - Cross product
 
 > ```rust
-> fn cross_product::<K>(u: &Vector::<K>, v: &Vector::<K>) -> Vector::<K>;
+> fn cross_product<K>(u: &Vector<K>, v: &Vector<K>) -> Vector<K>;
 > ```
 
 The cross product of two vectors outputs a vector that is perpendicular to the plane formed by the two vectors.
