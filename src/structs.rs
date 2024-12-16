@@ -69,6 +69,8 @@ impl<K: std::fmt::Display + Copy> Clone for Matrix<K> {
 impl<K: std::fmt::Display + ops::Add<Output = K> + Copy> ops::Add for Matrix<K> {
     type Output = Self;
 
+    // Time: O(n) − Space: O(n)
+    // where n is the number of elements in the matrix
     fn add(self, v: Self) -> Self {
         if self.shape != v.shape {
             panic!("Shapes {:?} and {:?} are incompatible", self.shape, v.shape);
@@ -90,6 +92,8 @@ impl<K: std::fmt::Display + ops::Add<Output = K> + Copy> ops::Add for Matrix<K> 
 impl<K: std::fmt::Display + ops::Sub<Output = K> + Copy> ops::Sub for Matrix<K> {
     type Output = Self;
 
+    // Time: O(n) − Space: O(n)
+    // where n is the number of elements in the matrix
     fn sub(self, v: Self) -> Self {
         if self.shape != v.shape {
             panic!("Shapes {:?} and {:?} are incompatible", self.shape, v.shape);
@@ -111,6 +115,8 @@ impl<K: std::fmt::Display + ops::Sub<Output = K> + Copy> ops::Sub for Matrix<K> 
 impl<K: std::fmt::Display + ops::Mul<Output = K> + Copy> ops::Mul<K> for Matrix<K> {
     type Output = Self;
 
+    // Time: O(n) − Space: O(n)
+    // where n is the number of elements in the matrix
     fn mul(self, a: K) -> Self {
         let mut new_data = Vec::new();
         for i in 0..self.data.len() {
@@ -156,6 +162,8 @@ impl<
         self.shape = shape;
     }
 
+    // Time: O(n) − Space: O(1)
+    // where n is the number of elements in the matrix
     pub fn add(&mut self, v: &Matrix<K>) {
         if self.shape != v.shape() {
             panic!(
@@ -170,6 +178,8 @@ impl<
         }
     }
 
+    // Time: O(n) − Space: O(1)
+    // where n is the number of elements in the matrix
     pub fn sub(&mut self, v: &Matrix<K>) {
         if self.shape != v.shape() {
             panic!(
@@ -184,16 +194,104 @@ impl<
         }
     }
 
+    // Time: O(n) − Space: O(1)
+    // where n is the number of elements in the matrix
     pub fn scl(&mut self, a: K) {
         for i in 0..self.data.len() {
             self.data[i] = self.data[i] * a;
         }
     }
+
+    // Time: O(nm) − Space: O(nm)
+    // where self is a matrix of shape (m, n)
+    pub fn transpose(&mut self) {
+        let mut result: Vec<K> = Vec::new();
+
+        for j in 0..self.shape.1 {
+            for i in 0..self.shape.0 {
+                result.push(self.data[i * self.shape.1 + j]);
+            }
+        }
+
+        self.data = result;
+        self.shape = (self.shape.1, self.shape.0)
+    }
+
+    // Time: O(nm) − Space: O(n)
+    // where self is a matrix of shape (m, n)
+    // and vec is a vector of shape (n, 1)
+    pub fn mul_vec(&self, vec: Vector<K>) -> Vector<K> {
+        if self.shape.1 != vec.shape().0 {
+            panic!(
+                "The vector shape {:?} is incompatible with the matrix shape {:?}\
+                Expected a vector of shape ({}, 1)",
+                self.shape,
+                vec.shape(),
+                self.shape.1,
+            );
+        }
+
+        let mut result: Vector<K> = Vector::from(vec![self.data[0]; self.shape.0]);
+
+        for j in 0..self.shape.1 {
+            let mut column: Vec<K> = Vec::new();
+            for i in 0..self.shape.0 {
+                column.push(self.data[i * self.shape.1 + j]);
+            }
+            let mut vector: Vector<K> = Vector::from(column);
+            vector.scl(vec.flat()[j]);
+
+            if j == 0 {
+                result = vector;
+            } else {
+                result.add(&vector);
+            }
+        }
+
+        return Vector::from(result.clone());
+    }
+
+    // Time: O(nmp) − Space: O(np)
+    // where self is a matrix of shape (m, n)
+    // and mat is a matrix of shape (n, p)
+    pub fn mul_mat(&self, mat: Matrix<K>) -> Matrix<K> {
+        let mat_shape: (usize, usize) = mat.shape();
+        let mat_flat: Vec<K> = mat.flat();
+        if self.shape.1 != mat_shape.0 {
+            panic!(
+                "The vector shape {:?} is incompatible with the matrix shape {:?}\
+                Expected a vector of shape ({}, 1)",
+                self.shape,
+                mat_shape,
+                self.shape.1,
+            );
+        }
+
+        let mut result: Vec<Vec<K>> = Vec::new(); // p elements of length n
+
+        for j in 0..mat_shape.1 {
+            let mut column: Vec<K> = Vec::new();
+            println!("Column:");
+            for i in 0..mat_shape.0 {
+                column.push(mat_flat[i * mat_shape.1 + j]);
+            }
+            // p mul_vecs:
+            // Each one has time complexity nm → mul_mat: O(nmp)
+            // Each one has space complexity n → mul_mat: O(np)
+            let vector: Vector<K> = self.mul_vec(Vector::from(column));
+
+            result.push(vector.flat());
+        }
+
+        let mut matrix: Matrix<K> = Matrix::from(result);
+        matrix.transpose();
+        return matrix;
+    }
 }
 
 // print! and println!
 impl<K: std::fmt::Display> fmt::Display for Matrix<K> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         for i in 0..self.shape.0 {
             write!(f, "[")?;
             for j in 0..self.shape.1 {
@@ -240,6 +338,8 @@ impl<K: std::fmt::Display + Copy> Clone for Vector<K> {
 impl<K: std::fmt::Display + ops::Add<Output = K> + Copy> ops::Add for Vector<K> {
     type Output = Self;
 
+    // Time: O(n) − Space: O(n)
+    // where n is the length of the vector
     fn add(self, v: Self) -> Self {
         let new_matrix = self.matrix + v.matrix;
         return Vector { matrix: new_matrix };
@@ -250,6 +350,8 @@ impl<K: std::fmt::Display + ops::Add<Output = K> + Copy> ops::Add for Vector<K> 
 impl<K: std::fmt::Display + ops::Sub<Output = K> + Copy> ops::Sub for Vector<K> {
     type Output = Self;
 
+    // Time: O(n) − Space: O(n)
+    // where n is the length of the vector
     fn sub(self, v: Self) -> Self {
         let new_matrix = self.matrix - v.matrix;
         return Vector { matrix: new_matrix };
@@ -260,6 +362,8 @@ impl<K: std::fmt::Display + ops::Sub<Output = K> + Copy> ops::Sub for Vector<K> 
 impl<K: std::fmt::Display + ops::Mul<Output = K> + Copy> ops::Mul<K> for Vector<K> {
     type Output = Self;
 
+    // Time: O(n) − Space: O(n)
+    // where n is the length of the vector
     fn mul(self, a: K) -> Self {
         let new_matrix = self.matrix * a;
         return Vector { matrix: new_matrix };
@@ -291,19 +395,24 @@ impl<
         self.matrix.reshape(shape);
     }
 
+    // Time: O(n) − Space: O(1)
+    // where n is the length of the vector
     pub fn add(&mut self, v: &Vector<K>) {
         self.matrix.add(&v.matrix);
     }
 
+    // Time: O(n) − Space: O(1)
     pub fn sub(&mut self, v: &Vector<K>) {
         self.matrix.sub(&v.matrix);
     }
 
+    // Time: O(n) − Space: O(1)
     pub fn scl(&mut self, a: K) {
         self.matrix.scl(a);
     }
 
-    pub fn dot(&self, v: Vector::<K>) -> f32 {
+    // Time: O(n) − Space: O(1)
+    pub fn dot(&self, v: Vector<K>) -> f32 {
         if self.shape() != v.shape() || self.flat().len() != v.flat().len() {
             panic!(
                 "Shapes {:?} and {:?} are incompatible",
@@ -322,7 +431,9 @@ impl<
         return sum;
     }
 
-    pub fn norm_1(&self) -> f32 { // Manhattan
+    // Time: O(n) − Space: O(1)
+    pub fn norm_1(&self) -> f32 {
+        // Manhattan
         let mut sum = to_f32(self.matrix.data[0]).abs();
         for i in 1..self.flat().len() {
             sum = sum + to_f32(self.matrix.data[i]).abs();
@@ -330,7 +441,9 @@ impl<
         return sum;
     }
 
-    pub fn norm(&self) -> f32 { // Euclidian
+    // Time: O(n) − Space: O(1)
+    pub fn norm(&self) -> f32 {
+        // Euclidian
         let mut squared_sum = to_f32(self.matrix.data[0]).powi(2);
         for i in 1..self.flat().len() {
             squared_sum = squared_sum + to_f32(self.matrix.data[i]).powi(2);
@@ -338,7 +451,9 @@ impl<
         return squared_sum.powf(0.5);
     }
 
-    pub fn norm_inf(&self) -> f32 { // Supremum
+    // Time: O(n) − Space: O(1)
+    pub fn norm_inf(&self) -> f32 {
+        // Supremum
         let mut max = to_f32(self.matrix.data[0]).abs();
         for i in 1..self.flat().len() {
             let abs = to_f32(self.matrix.data[i]).abs();
@@ -352,7 +467,7 @@ impl<
 
 // print! and println!
 impl<K: std::fmt::Display> fmt::Display for Vector<K> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{}", self.matrix)
     }
 }
