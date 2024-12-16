@@ -16,6 +16,7 @@
     - [04 - Norm](#04---norm)
     - [05 - Cosine](#05---cosine)
     - [06 - Cross product](#06---cross-product)
+    - [07 - Matrix multiplication](#07---matrix-multiplication)
 - [Resources](#resources) 📖
 
 ## Exercises
@@ -198,6 +199,43 @@ Here the two vectors form the $xy$ plane, and the cross product points in the $z
 The cross product is only defined for two $(3, 1)$ vectors, and the formula can be found in the *Cross product* [Wikipedia page](https://en.wikipedia.org/wiki/Cross_product#Matrix_notation).
 
 However, it has other interesting properties, have a look at the [Cross product](https://www.youtube.com/watch?v=eu6i7WJeinw) video of the *Essence of Linear Algebra* series.
+
+### 07 - Matrix multiplication
+
+> ```rust
+> fn mul_vec<K>(&mut self, vec: Vector<K>) -> Vector<K>;
+> fn mul_mat<K>(&mut self, mat: Matrix<K>) -> Matrix<K>;
+> ```
+>
+> Maximum time complexity:
+> - $O(nm)$ for `mul_vec` with a matrix of shape $(m, n)$ and a vector of length $n$.
+> - $O(nmp)$ for `mul_mat` with a matrix of shape $(m, n)$ and a matrix of shape $(n, p)$.
+>
+> Maximum space complexity:
+> - $O(nm)$ for `mul_vec`.
+> - $O(nm + mp + np)$ for `mul_mat`.
+
+Matrix multiplication can be done either with a vector, or with another matrix.
+
+#### Matrix-vector multiplication
+
+For a matrix $A$ of shape $(m, n)$ and a vector $v$ of length $n$, the product $Av$ is a vector of length $m$.
+
+Each element of the resulting vector is multiplied by the corresponding column of the matrix, and then summed.
+
+![mat_vec](./assets/mat_vec.webp)
+
+> *Here is a visual representation of the matrix-vector multiplication, from the Essence of linear algebra series. Watch the [full video](https://www.youtube.com/watch?v=XkY2DOUCWMU).*
+
+#### Matrix-matrix multiplication
+
+For a matrix $A$ of shape $(m, n)$ and a matrix $B$ of shape $(n, p)$, the product $AB$ is a matrix of shape $(m, p)$.
+
+Each column of the resulting matrix is the result of the matrix-vector multiplication of the matrix $A$ with the corresponding column of the matrix $B$.
+
+It would not be wise to give you more than this explanation, so once again, watch the full video mentioned above, and make sure you get a good grasp of the concept.
+
+> 💡 Depending on your implementation, it might be a good choice to implement the **transpose** operation now instead of when you reach ex09.
 
 ## Resources
 
