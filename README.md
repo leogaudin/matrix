@@ -291,8 +291,84 @@ It can also be seen as the result of swapping the rows and columns of the matrix
 
 Implementing it is simply two nested loops, swapping the elements of the matrix.
 
+### 10 - Row echelon form
+
+> ```rust
+> pub fn row_echelon(&self) -> Matrix<K>;
+> ```
+>
+> Maximum time complexity : $O(n^3)$
+>
+> Maximum space complexity : $O(n^2)$
+
+The row echelon form (REF) of a matrix is the result of applying a series of operations to the matrix, in order to have the following properties:
+
+1. The first non-zero element of each row is $1$.
+2. The first non-zero element of each row is to the right of the first non-zero element of the row above.
+3. The first non-zero element of each row is the only non-zero element in its column.
+
+Its main use case is solving systems of linear equations. Let's say you have the following system:
+
+$$
+\begin{cases}
+x + 2y + 3z = 4 \\
+4x + 5y + 6z = 7 \\
+7x + 8y + 9z = 10
+\end{cases}
+$$
+
+You can write it as an augmented matrix:
+
+$$
+\left[
+    \begin{array}{ccc|c}
+    1 & 2 & 3 & 4 \\
+    4 & 5 & 6 & 7 \\
+    7 & 8 & 9 & 10
+    \end{array}
+\right]
+$$
+
+And its REF would be:
+
+$$
+\left[
+    \begin{array}{ccc|c}
+    1 & 2 & 3 & 4 \\
+    0 & 1 & 2 & 3 \\
+    0 & 0 & 1 & 2
+    \end{array}
+\right]
+$$
+
+This means that:
+
+- *Third row*: $1z = 2$, therefore $z = 2$.
+- *Second row*: $1y + 2z = 3$, then $y + 4 = 3$, so $y = -1$.
+- *First row*: $1x + 2y + 3z = 4$, then $x - 2 + 6 = 4$, so $x = 0$.
+
+> What we just did is called **back substitution**.
+>
+> This explanation can be a bit shallow, so if you are still confused, take a look at [this video](https://www.youtube.com/watch?v=2tlwSqblrvU).
+
+Now, how to get to the REF?
+
+1. Find the first row with a non-zero element in the first column.
+2. If it is not the first row, swap it with the first row.
+3. Keep track of what is called the **pivot** element (the first non-zero element of the row). It will increase by one at each iteration.
+4. For each row below the current one, subtract a multiple of the current row to make the elements below the pivot zero.
+5. Repeat the process for the next row.
+
+Implementing this as code is a very complex task, so I suggest you look at the [Rosetta Code](https://rosettacode.org/wiki/Reduced_row_echelon_form) page to wrap your head around it and get some inspiration.
+
+### 11 - Determinant
+
+
+
 ## Resources
 
 - [📺 YouTube − The Lp Norm for Vectors and Functions](https://www.youtube.com/watch?v=NKuLYRui-NU)
 - [📖 Wikipedia − Cross product (Matrix notation)](https://en.wikipedia.org/wiki/Cross_product#Matrix_notation)
+- [📺 YouTube − Gaussian Elimination](https://www.youtube.com/watch?v=2tlwSqblrvU) (helps to understand the point of REF)
+- [📖 Rosetta Code − Reduced row echelon form](https://rosettacode.org/wiki/Reduced_row_echelon_form)
 - [💬]()

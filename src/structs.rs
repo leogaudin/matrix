@@ -136,6 +136,9 @@ impl<
             + std::ops::Add<Output = K>
             + std::ops::Sub<Output = K>
             + std::ops::Mul<Output = K>
+            + std::ops::Div<Output = K>
+            + std::cmp::PartialEq
+            + Default
             + Copy,
     > Matrix<K>
 {
@@ -160,6 +163,14 @@ impl<
             );
         }
         self.shape = shape;
+    }
+
+    pub fn get(&self, i: usize, j: usize) -> K {
+        return self.data[i * self.shape.1 + j];
+    }
+
+    pub fn set(&mut self, i: usize, j: usize, value: K) {
+        self.data[i * self.shape.1 + j] = value;
     }
 
     // Time: O(n) − Space: O(1)
@@ -209,7 +220,7 @@ impl<
 
         for j in 0..self.shape.1 {
             for i in 0..self.shape.0 {
-                result.push(self.data[i * self.shape.1 + j]);
+                result.push(self.get(i, j));
             }
         }
 
@@ -236,7 +247,7 @@ impl<
         for j in 0..self.shape.1 {
             let mut column: Vec<K> = Vec::new();
             for i in 0..self.shape.0 {
-                column.push(self.data[i * self.shape.1 + j]);
+                column.push(self.get(i, j));
             }
             let mut vector: Vector<K> = Vector::from(column);
             vector.scl(vec.flat()[j]);
@@ -295,9 +306,81 @@ impl<
 
         let mut sum = self.data[0];
         for i in 1..self.shape.0 {
-            sum = sum + self.data[i * self.shape.0 + i];
+            sum = sum + self.get(i, i);
         }
         return sum;
+    }
+
+    // Time: O(m^2 * n) − Space: O(1)
+    // where self is a matrix of shape (m, n)
+    pub fn row_echelon(&self) -> Matrix<K> {
+        let mut matrix: Matrix<K> = self.clone();
+        let (rows, columns) = matrix.shape();
+        let mut pvt_column: usize = 0; // Pivot column
+
+        'out: for curr in 0..rows {
+            // If pvt reaches max
+            if pvt_column == columns {
+                break;
+            }
+
+            let mut nz = curr;
+
+            // Find the row with a non-zero element
+            // in the current pvt_column
+            while matrix.get(nz, pvt_column) == K::default() {
+                nz += 1;
+
+                // If no non-zero element is found,
+                // move to the next column
+                if nz == rows {
+                    nz = curr;
+                    pvt_column += 1;
+
+                    // If the current pvt_column reached
+                    // the number of columns, break the loop
+                    if columns == pvt_column {
+                        break 'out;
+                    }
+                }
+            }
+
+            // Swap the current row with the first row
+            // containing the non-zero element
+            for r in 0..rows {
+                let tmp = matrix.get(curr, r);
+                matrix.set(curr, r, matrix.get(nz, r));
+                matrix.set(nz, r, tmp);
+            }
+
+            let divisor: K = matrix.get(curr, pvt_column);
+            if divisor != K::default() {
+                for c in 0..columns {
+                    matrix.set(curr, c, matrix.get(curr, c) / divisor);
+                }
+            }
+
+            // For each row except the current one,
+            // subtract the product of the cell in the pivot column
+            // and the corresponding cell in the current row.
+            // (i.e., the cell below the pivot cell is zeroed)
+            for r in 0..rows {
+                if r != curr {
+                    let first = matrix.get(r, pvt_column);
+                    for c in 0..columns {
+                        matrix.set(
+                            r, c,
+                            matrix.get(r, c) - (first * matrix.get(curr, c))
+                        );
+                    }
+                }
+            }
+
+            // Move to the next column
+            pvt_column += 1;
+        }
+
+        return matrix;
     }
 }
 
@@ -388,6 +471,9 @@ impl<
             + std::ops::Add<Output = K>
             + std::ops::Sub<Output = K>
             + std::ops::Mul<Output = K>
+            + std::ops::Div<Output = K>
+            + std::cmp::PartialEq
+            + Default
             + Copy,
     > Vector<K>
 {
@@ -405,6 +491,14 @@ impl<
 
     pub fn reshape(&mut self, shape: (usize, usize)) {
         self.matrix.reshape(shape);
+    }
+
+    pub fn get(&self, i: usize) -> K {
+        return self.matrix.get(i, 0);
+    }
+
+    pub fn set(&mut self, i: usize, value: K) {
+        self.matrix.set(i, 0, value);
     }
 
     // Time: O(n) − Space: O(1)
