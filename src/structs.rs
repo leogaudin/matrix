@@ -383,7 +383,7 @@ impl<
         return matrix;
     }
 
-    // fn determinant::<K>(&mut self) -> K;
+    // Time: O(n^3) − Space: O(n^2)
     pub fn determinant(&self) -> K {
         if !self.is_square() {
             panic!(
@@ -401,11 +401,11 @@ impl<
 
         for col in 0..self.shape.0 {
             let mut sub_matrix: Vec<Vec<K>> = Vec::new();
-            for j in 1..self.shape.0 {
+            for r in 1..self.shape.0 {
                 let mut row: Vec<K> = Vec::new();
-                for k in 0..self.shape.1 {
-                    if k != col {
-                        row.push(self.get(j, k));
+                for c in 0..self.shape.1 {
+                    if c != col {
+                        row.push(self.get(r, c));
                     }
                 }
                 sub_matrix.push(row);
