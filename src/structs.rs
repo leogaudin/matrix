@@ -364,7 +364,7 @@ impl<
             // subtract the product of the cell in the pivot column
             // and the corresponding cell in the current row.
             // (i.e., the cell below the pivot cell is zeroed)
-            for r in 0..rows {
+            for r in curr..rows {
                 if r != curr {
                     let first = matrix.get(r, pvt_column);
                     for c in 0..columns {
@@ -381,6 +381,47 @@ impl<
         }
 
         return matrix;
+    }
+
+    // fn determinant::<K>(&mut self) -> K;
+    pub fn determinant(&self) -> K {
+        if !self.is_square() {
+            panic!(
+                "Shape {:?} is not a square",
+                self.shape
+            );
+        }
+
+        if self.shape.0 == 2 {
+            return self.data[0] * self.data[3] - self.data[1] * self.data[2];
+        }
+
+        let mut negative: bool = false;
+        let mut sum: K = K::default();
+
+        for col in 0..self.shape.0 {
+            let mut sub_matrix: Vec<Vec<K>> = Vec::new();
+            for j in 1..self.shape.0 {
+                let mut row: Vec<K> = Vec::new();
+                for k in 0..self.shape.1 {
+                    if k != col {
+                        row.push(self.get(j, k));
+                    }
+                }
+                sub_matrix.push(row);
+            }
+
+            let sub_matrix: Matrix<K> = Matrix::from(sub_matrix);
+            let sub_determinant: K = sub_matrix.determinant();
+            if negative {
+                sum = sum - self.get(0, col) * sub_determinant;
+            } else {
+                sum = sum + self.get(0, col) * sub_determinant;
+            }
+            negative = !negative;
+        }
+
+        return sum;
     }
 }
 

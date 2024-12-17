@@ -19,6 +19,10 @@
     - [07 - Matrix multiplication](#07---matrix-multiplication)
     - [08 - Trace](#08---trace)
     - [09 - Transpose](#09---transpose)
+    - [10 - Row echelon form](#10---row-echelon-form)
+    - [11 - Determinant](#11---determinant)
+    - [12 - Inverse](#12---inverse)
+    - [13 - Rank](#13---rank)
 - [Resources](#resources) 📖
 
 ## Exercises
@@ -301,7 +305,7 @@ Implementing it is simply two nested loops, swapping the elements of the matrix.
 >
 > Maximum space complexity : $O(n^2)$
 
-The row echelon form (REF) of a matrix is the result of applying a series of operations to the matrix, in order to have the following properties:
+The row echelon form ($\text{REF}$) of a matrix is the result of applying a series of operations to the matrix, in order to have the following properties:
 
 1. The first non-zero element of each row is $1$.
 2. The first non-zero element of each row is to the right of the first non-zero element of the row above.
@@ -329,7 +333,7 @@ $$
 \right]
 $$
 
-And its REF would be:
+And its $\text{REF}$ would be:
 
 $$
 \left[
@@ -351,7 +355,7 @@ This means that:
 >
 > This explanation can be a bit shallow, so if you are still confused, take a look at [this video](https://www.youtube.com/watch?v=2tlwSqblrvU).
 
-Now, how to get to the REF?
+Now, how to get to the $\text{REF}$?
 
 1. Find the first row with a non-zero element in the first column.
 2. If it is not the first row, swap it with the first row.
@@ -363,7 +367,55 @@ Implementing this as code is a very complex task, so I suggest you look at the [
 
 ### 11 - Determinant
 
+> ```rust
+> pub fn determinant(&self) -> K;
+> ```
+>
+> Maximum time complexity : $O(n^3)$
+>
+> Maximum space complexity : $O(n^2)$
 
+Matrices are more than rows and columns, they correspond to geometric linear transformations.
+
+A matrix changes the space it operates in.
+
+For example, it can rotate, scale, or shear a space, and thus, affect any object in this space (like a vector).
+
+The **determinant** of a matrix is a scalar that represents how much the matrix increases/reduces the space it operates in.
+
+If a matrix scales everything by a factor of $2$, its determinant will be $2$.
+
+Once again, 3Blue1Brown has a great video on the subject, [check it out here](https://www.youtube.com/watch?v=Ip3X9LOh2dk).
+
+For a 2x2 matrix, the determinant is calculated as follows:
+
+$$
+\left|
+\begin{array}{cc}
+a & b \\
+c & d
+\end{array}
+\right| = ad - bc
+$$
+
+Now, for a 3x3 matrix, the determinant is calculated as follows:
+
+<p align="center">
+    <img src="./assets/determinant_3x3.webp" alt="determinant" width="auto"/>
+</p>
+
+It would be a bit tedious to implement a function for each case as the subject asks, so I suggest you implement a general function that can calculate the determinant of any square matrix.
+
+Do you see the pattern here?
+
+The determinant of a 3x3 matrix is calculated by:
+
+1. Taking each element $x$ of the first row.
+2. Multiplying it by the determinant of the matrix that remains when you remove the $i_x$ row and the $j_x$ column.
+
+This is called the **Laplace expansion**.
+
+Recursively, you can calculate the determinant of any square matrix.
 
 ## Resources
 
