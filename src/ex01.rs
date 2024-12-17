@@ -3,11 +3,14 @@ mod structs;
 use structs::Vector;
 
 pub fn linear_combination<
-K: std::fmt::Display
-    + std::ops::Add<Output = K>
-    + std::ops::Sub<Output = K>
-    + std::ops::Mul<Output = K>
-    + Copy,
+    K: std::fmt::Display
+        + std::ops::Add<Output = K>
+        + std::ops::Sub<Output = K>
+        + std::ops::Mul<Output = K>
+        + std::ops::Div<Output = K>
+        + std::cmp::PartialEq
+        + Default
+        + Copy
 >(
     v: &[Vector<K>],
     a: &[K],

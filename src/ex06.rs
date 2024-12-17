@@ -8,6 +8,8 @@ fn cross_product<
         + std::ops::Sub<Output = K>
         + std::ops::Mul<Output = K>
         + std::ops::Div<Output = K>
+        + std::cmp::PartialEq
+        + Default
         + Copy,
 >(
     u: &Vector<K>,
