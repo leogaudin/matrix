@@ -138,6 +138,7 @@ impl<
             + std::ops::Mul<Output = K>
             + std::ops::Div<Output = K>
             + std::cmp::PartialEq
+            + std::ops::Neg<Output = K>
             + Default
             + Copy,
     > Matrix<K>
@@ -210,6 +211,12 @@ impl<
     pub fn scl(&mut self, a: K) {
         for i in 0..self.data.len() {
             self.data[i] = self.data[i] * a;
+        }
+    }
+
+    pub fn div(&mut self, a: K) {
+        for i in 0..self.data.len() {
+            self.data[i] = self.data[i] / a;
         }
     }
 
@@ -347,10 +354,10 @@ impl<
 
             // Swap the current row with the first row
             // containing the non-zero element
-            for r in 0..rows {
-                let tmp = matrix.get(curr, r);
-                matrix.set(curr, r, matrix.get(nz, r));
-                matrix.set(nz, r, tmp);
+            for c in 0..columns {
+                let temp = matrix.get(curr, c);
+                matrix.set(curr, c, matrix.get(nz, c));
+                matrix.set(nz, c, temp);
             }
 
             let divisor: K = matrix.get(curr, pvt_column);
@@ -373,6 +380,17 @@ impl<
                             matrix.get(r, c) - (first * matrix.get(curr, c))
                         );
                     }
+                }
+            }
+
+            // Make the numbers above the pivot cell zero
+            for r in 0..curr {
+                let first = matrix.get(r, pvt_column);
+                for c in 0..columns {
+                    matrix.set(
+                        r, c,
+                        matrix.get(r, c) - (first * matrix.get(curr, c))
+                    );
                 }
             }
 
@@ -422,6 +440,77 @@ impl<
         }
 
         return sum;
+    }
+
+    // Time: O(n^3) − Space: O(n^2)
+    // (would be space O(1) but we need to check if the matrix is singular)
+    pub fn inverse(&self) -> Result<Matrix<K>, &'static str> {
+        if !self.is_square() {
+            panic!(
+                "Shape {:?} is not a square",
+                self.shape
+            );
+        }
+
+        let determinant = self.determinant();
+
+        if determinant == K::default() {
+            return Err("The matrix is singular");
+        }
+
+        let mut augmented: Vec<Vec<K>> = Vec::new();
+        for _ in 0..self.shape.0 {
+            let mut row: Vec<K> = Vec::new();
+            for _ in 0..self.shape.1 * 2 {
+                row.push(K::default());
+            }
+            augmented.push(row);
+        }
+
+        for r in 0..self.shape.0 {
+            for c in 0..self.shape.1 {
+                augmented[r][c] = self.get(r, c);
+            }
+            augmented[r][self.shape.1 + r] = determinant / determinant;
+        }
+
+        let mut augmented: Matrix<K> = Matrix::from(augmented);
+        augmented = augmented.row_echelon();
+
+        let mut unaugmented: Vec<Vec<K>> = Vec::new();
+        for _ in 0..self.shape.0 {
+            let mut row: Vec<K> = Vec::new();
+            for _ in 0..self.shape.1 {
+                row.push(K::default());
+            }
+            unaugmented.push(row);
+        }
+
+        for r in 0..self.shape.0 {
+            for c in 0..self.shape.1 {
+                unaugmented[r][c] = augmented.get(r, c + self.shape.1);
+            }
+        }
+
+        let unaugmented: Matrix<K> = Matrix::from(unaugmented);
+
+        return Ok(unaugmented);
+    }
+
+    pub fn rank(&self) -> usize {
+        let rref = self.row_echelon();
+
+        let mut rank: usize = 0;
+        for r in 0..rref.shape.0 {
+            for c in 0..rref.shape.1 {
+                if rref.get(r, c) != K::default() {
+                    rank += 1;
+                    break;
+                }
+            }
+        }
+
+        return rank;
     }
 }
 
@@ -514,6 +603,7 @@ impl<
             + std::ops::Mul<Output = K>
             + std::ops::Div<Output = K>
             + std::cmp::PartialEq
+            + std::ops::Neg<Output = K>
             + Default
             + Copy,
     > Vector<K>

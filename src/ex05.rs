@@ -9,6 +9,7 @@ pub fn angle_cos<
         + std::ops::Mul<Output = K>
         + std::ops::Div<Output = K>
         + std::cmp::PartialEq
+        + std::ops::Neg<Output = K>
         + Default
         + Copy,
 >(

@@ -23,6 +23,10 @@ mod ex10;
 use ex10::test_10;
 mod ex11;
 use ex11::test_11;
+mod ex12;
+use ex12::test_12;
+mod ex13;
+use ex13::test_13;
 
 fn main() {
     test_00();
@@ -37,4 +41,6 @@ fn main() {
     test_09();
     test_10();
     test_11();
+    test_12();
+    test_13();
 }

@@ -9,20 +9,20 @@
 ## Table of Contents
 
 - [Exercises](#exercises) 🏋🏻
-    - [00 - Add, Subtract and Scale](#00---add-subtract-and-scale)
-    - [01 - Linear combination](#01---linear-combination)
-    - [02 - Linear interpolation](#02---linear-interpolation)
-    - [03 - Dot product](#03---dot-product)
-    - [04 - Norm](#04---norm)
-    - [05 - Cosine](#05---cosine)
-    - [06 - Cross product](#06---cross-product)
-    - [07 - Matrix multiplication](#07---matrix-multiplication)
-    - [08 - Trace](#08---trace)
-    - [09 - Transpose](#09---transpose)
-    - [10 - Row echelon form](#10---row-echelon-form)
-    - [11 - Determinant](#11---determinant)
-    - [12 - Inverse](#12---inverse)
-    - [13 - Rank](#13---rank)
+    - [00 - Add, Subtract and Scale](#00---add-subtract-and-scale) 🔣
+    - [01 - Linear combination](#01---linear-combination) 🔗
+    - [02 - Linear interpolation](#02---linear-interpolation) 1️⃣1️
+    - [03 - Dot product](#03---dot-product) 🎯
+    - [04 - Norm](#04---norm) 📏
+    - [05 - Cosine](#05---cosine) 📐
+    - [06 - Cross product](#06---cross-product) ✖️
+    - [07 - Matrix multiplication](#07---matrix-multiplication) ✖️
+    - [08 - Trace](#08---trace) ➕
+    - [09 - Transpose](#09---transpose) 🔄
+    - [10 - Row echelon form](#10---row-echelon-form) 📉
+    - [11 - Determinant](#11---determinant) 📊
+    - [12 - Inverse](#12---inverse) 🔁
+    - [13 - Rank](#13---rank) 📈
 - [Resources](#resources) 📖
 
 ## Exercises
@@ -417,10 +417,104 @@ This is called the **Laplace expansion**.
 
 Recursively, you can calculate the determinant of any square matrix.
 
+### 12 - Inverse
+
+> ```rust
+> fn inverse(&self) -> Result<Matrix::<K>, _>;
+> ```
+>
+> Maximum time complexity : $O(n^3)$
+>
+> Maximum space complexity : $O(n^2)$
+
+The inverse of a matrix is the matrix that, when multiplied by the original matrix, gives the identity matrix.
+
+Remember that matrices are here to represent transformations.
+
+In simpler terms, the inverse of a matrix is the matrix that "undoes" the original transformation.
+
+> Example: if a matrix scales everything by a factor of $2$, its inverse will scale everything by a factor of $0.5$.
+
+There is a very cool method to calculate the inverse of a matrix, using calculations similar to the determinant's, but it is of time complexity $O(n^4)$, and the subject asks for a $O(n^3)$ solution.
+
+> See [this video](https://www.youtube.com/watch?v=YvjkPF6C_LI) if you are curious about it.
+
+So, we will implement another one that leverages the **Gauss-Jordan elimination** method, already implemented in [ex10](#10---row-echelon-form).
+
+This method consists of augmenting the matrix with its identity matrix, and applying the reduced row echelon form method to the augmented matrix.
+
+> 💡 The **reduced** row echelon form is a more restrictive set of the row echelon form, with an additional rule of having only zeros in the same column as the pivot 1's
+>
+> For example:
+>
+> $$
+> \begin{bmatrix}
+>     1 & 2 & 3 \\
+>     0 & 1 & 2 \\
+>     0 & 0 & 1
+> \end{bmatrix}
+> $$
+>
+> is in row echelon form, but not in reduced row echelon form.
+
+Let's say we have the following matrix:
+
+$$
+\left[
+    \begin{array}{cc}
+    1 & 3 \\
+    2 & 5
+    \end{array}
+\right]
+$$
+
+We augment it with its identity matrix (a zero-ed matrix of same shape, with ones on the main diagonal):
+
+$$
+\left[
+    \begin{array}{cc|cc}
+    1 & 3 & 1 & 0 \\
+    2 & 5 & 0 & 1
+    \end{array}
+\right]
+$$
+
+And apply the reduced row echelon form method to it:
+
+$$
+\left[
+    \begin{array}{cc|cc}
+    1 & 0 & -5 & 3 \\
+    0 & 1 & 2 & -1
+    \end{array}
+\right]
+$$
+
+The right side of the augmented matrix is the inverse of the original matrix. We only have to extract it!
+
+### 13 - Rank
+
+> ```rust
+> fn rank(&self) -> usize;
+> ```
+>
+> Maximum time complexity : $O(n^3)$
+>
+> Maximum space complexity : $O(n^2)$
+
+The **rank** of a matrix indicates how "compressed" space is after the transformation.
+
+For example, if a matrix takes a 3D space and compresses it to a 2D space, its rank will be $2$.
+
+Watch [this video](https://www.youtube.com/watch?v=uQhTuRlWMxw) (3Blue1Brown again) to have a visual representation of the rank.
+
+We can compute the rank of a matrix by **counting the number of non-zero rows in its reduced row echelon form**.
+
 ## Resources
 
 - [📺 YouTube − The Lp Norm for Vectors and Functions](https://www.youtube.com/watch?v=NKuLYRui-NU)
 - [📖 Wikipedia − Cross product (Matrix notation)](https://en.wikipedia.org/wiki/Cross_product#Matrix_notation)
 - [📺 YouTube − Gaussian Elimination](https://www.youtube.com/watch?v=2tlwSqblrvU) (helps to understand the point of REF)
 - [📖 Rosetta Code − Reduced row echelon form](https://rosettacode.org/wiki/Reduced_row_echelon_form)
-- [💬]()
+- [📺 YouTube − Finding the Inverse of a 3 x 3 Matrix using Determinants and Cofactors](https://www.youtube.com/watch?v=YvjkPF6C_LI) ($n^4$ time complexity)
+- [📺 YouTube − Inverse Matrix Using Gauss-Jordan / Row Reduction](https://www.youtube.com/watch?v=cJg2AuSFdjw)
