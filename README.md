@@ -42,7 +42,7 @@
 This exercise is pretty straightforward:
 
 - The addition and subtraction can only be done with matrices of the same shape, and is the result of **adding or subtracting each element of the first matrix with the corresponding element of the second matrix**.
-- The scaling is depends on a scalar, and is the result of **multiplying each element of the matrix by the scalar**.
+- The scaling depends on a scalar, and is the result of **multiplying each element of the matrix by the scalar**.
 
 ### 01 - Linear combination
 
@@ -56,7 +56,7 @@ This exercise is pretty straightforward:
 
 Linear combination is the result of **adding the result of multiplying each vector by its corresponding coefficient**.
 
-For example, the linear combination of the vectors $[1, 2]$ and $[3, 4]$ with the coefficients $2$ and $3$ is the vector $[11, 16]$.
+For example, the linear combination of the vectors $[1, 2]$ and $[3, 4]$ with the respective coefficients $2$ and $3$ is the vector $[11, 16]$.
 
 ### 02 - Linear interpolation
 
@@ -72,7 +72,7 @@ Interpolating two numbers $u$ and $v$ with a factor $t$ (being $0 \leq t \leq 1$
 
 For example, $\text{lerp}(1, 3, 0.5) = 2$, because $2$ is halfway between $1$ and $3$. Simple.
 
-With vectors, it is easier to visualize. Finding the linear interpolation between two vectors $u$ and $v$ would vulgarly mean:
+With vectors, it is easier to visualize. Finding the linear interpolation between two vectors $u$ and $v$ would roughly mean:
 
 1. Drawing an imaginary line between the extremities of the vectors.
 2. Finding the point that is $t$ percent between the two extremities.
@@ -85,8 +85,6 @@ With vectors, it is easier to visualize. Finding the linear interpolation betwee
 Here, $V_t = \text{lerp}(u, v, t)$ points at the point that is $t\%$ between $u$ and $v$.
 
 Find the formula for the linear interpolation of two numbers in the GIF!
-
-> 💡 For those who did `dslr`, it can remind you of the negative log-loss formula.
 
 If you implemented well the previous exercises, this one should be a piece of cake: just overload the operators with your functions!
 
@@ -117,7 +115,7 @@ With all these tips, you should be able to implement `lerp` in one line!
 >
 > Maximum space complexity : $O(n)$
 
-The dot product of two vectors is the sum-product of their corresponding elements.
+The dot product of two vectors is the **weighted sum of the elements of the vectors**.
 
 For example:
 
@@ -153,15 +151,15 @@ The norms to implement are:
 
 - **$l_1$ norm**: $\|v\|_1$ (also called the Taxicab norm or Manhattan norm)
     - **Definition**: the sum of the absolute values of the elements of the vector.
-    - **Geometry**: the distance traveled if you can only move along the axes.
+    - **Geometrically**: the distance traveled if you can only move along the axes.
 
 - **$l_2$ norm**: $\|v\|$ or $\|v\|_2$ (also called the Euclidean norm)
     - **Definition**: the square root of the sum of the squares of the elements of the vector.
-    - **Geometry**: the length of the vector.
+    - **Geometrically**: the length of the vector.
 
 - **$l_\infty$ norm**: $\|v\|_\infty$ (also called the supremum norm or uniform norm)
     - **Definition**: the maximum absolute value of the elements of the vector.
-    - **Geometry**: the maximum distance traveled along one axis. For example, if your vector travels 3 units along $x$ and 4 units along the $y$, the $l_\infty$ norm would be 4.
+    - **Geometrically**: the maximum distance traveled along one axis. For example, if your vector travels 3 units along $x$ and 4 units along the $y$, the $l_\infty$ norm would be 4.
 
 ### 05 - Cosine
 
@@ -173,7 +171,7 @@ The norms to implement are:
 >
 > Maximum space complexity : $O(n)$
 
-The cosine of the angle between two vectors is the dot product of the two vectors divided by the product of their norms. Simple.
+The cosine of the angle between two vectors is **their dot product, divided by the product of their norms**. Simple.
 
 As the subject says, *"use the functions you wrote during the two previous exercises"*.
 
@@ -214,8 +212,8 @@ However, it has other interesting properties, have a look at the [Cross product]
 > ```
 >
 > Maximum time complexity:
-> - $O(nm)$ for `mul_vec` with a matrix of shape $(m, n)$ and a vector of length $n$.
-> - $O(nmp)$ for `mul_mat` with a matrix of shape $(m, n)$ and a matrix of shape $(n, p)$.
+> - $O(nm)$ for `mul_vec`, with a matrix of shape $(m, n)$ and a vector of length $n$.
+> - $O(nmp)$ for `mul_mat`, with a matrix of shape $(m, n)$ and a matrix of shape $(n, p)$.
 >
 > Maximum space complexity:
 > - $O(nm)$ for `mul_vec`.
@@ -239,11 +237,11 @@ Each element of the resulting vector is multiplied by the corresponding column o
 
 For a matrix $A$ of shape $(m, n)$ and a matrix $B$ of shape $(n, p)$, the product $AB$ is a matrix of shape $(m, p)$.
 
-Each column of the resulting matrix is the result of the matrix-vector multiplication of the matrix $A$ with the corresponding column of the matrix $B$.
+**Each column of the resulting matrix is the result of the matrix-vector multiplication of the matrix $A$ with its corresponding column of the matrix $B$**.
 
 It would not be wise to give you more than this explanation, so once again, watch the full video mentioned above, and make sure you get a good grasp of the concept.
 
-> 💡 Depending on your implementation, it might be a good choice to implement the **transpose** operation now instead of when you reach ex09.
+> 💡 Depending on your implementation, it might be a good choice to implement the **transpose** operation now, instead of when you reach ex09.
 
 ### 08 - Trace
 
@@ -252,10 +250,8 @@ It would not be wise to give you more than this explanation, so once again, watc
 > ```
 >
 > Maximum time complexity : $O(n)$
->
-> Maximum space complexity : N/A
 
-The trace of a square matrix is the sum of the elements on the main diagonal.
+**The trace of a square matrix is the sum of the elements of its main diagonal.**
 
 For example:
 
@@ -285,7 +281,7 @@ It is a component of more complex, interesting concepts, check out [this video](
 >
 > Maximum space complexity : $O(nm)$
 
-The transpose of a matrix is the result of mirroring the matrix, along its main diagonal for a square matrix.
+**The transpose of a matrix can be seen as mirroring it**, along the main diagonal for a square matrix.
 
 It can also be seen as the result of swapping the rows and columns of the matrix.
 
@@ -309,7 +305,6 @@ The row echelon form ($\text{REF}$) of a matrix is the result of applying a seri
 
 1. The first non-zero element of each row is $1$.
 2. The first non-zero element of each row is to the right of the first non-zero element of the row above.
-3. The first non-zero element of each row is the only non-zero element in its column.
 
 Its main use case is solving systems of linear equations. Let's say you have the following system:
 
@@ -379,7 +374,7 @@ Matrices are more than rows and columns, they correspond to geometric linear tra
 
 A matrix changes the space it operates in.
 
-For example, it can rotate, scale, or shear a space, and thus, affect any object in this space (like a vector).
+For example, it can rotate, scale, or shear it, and thus, affect any object in this space (e.g. a vector).
 
 The **determinant** of a matrix is a scalar that represents how much the matrix increases/reduces the space it operates in.
 
@@ -398,7 +393,7 @@ c & d
 \right| = ad - bc
 $$
 
-Now, for a 3x3 matrix, the determinant is calculated as follows:
+For a 3x3 matrix:
 
 <p align="center">
     <img src="./assets/determinant_3x3.webp" alt="determinant" width="auto"/>
@@ -429,21 +424,21 @@ Recursively, you can calculate the determinant of any square matrix.
 
 The inverse of a matrix is the matrix that, when multiplied by the original matrix, gives the identity matrix.
 
-Remember that matrices are here to represent transformations.
+Remember that matrices exist to represent transformations.
 
-In simpler terms, the inverse of a matrix is the matrix that "undoes" the original transformation.
+In simpler terms, **the inverse of a matrix is the matrix that "undoes" the original transformation**.
 
 > Example: if a matrix scales everything by a factor of $2$, its inverse will scale everything by a factor of $0.5$.
 
 There is a very cool method to calculate the inverse of a matrix, using calculations similar to the determinant's, but it is of time complexity $O(n^4)$, and the subject asks for a $O(n^3)$ solution.
 
-> See [this video](https://www.youtube.com/watch?v=YvjkPF6C_LI) if you are curious about it.
+> [Click here](https://www.youtube.com/watch?v=YvjkPF6C_LI) if you are curious about it.
 
-So, we will implement another one that leverages the **Gauss-Jordan elimination** method, already implemented in [ex10](#10---row-echelon-form).
+So, we will implement another one, that leverages the **Gauss-Jordan elimination** method, already implemented in [ex10](#10---row-echelon-form).
 
 This method consists of augmenting the matrix with its identity matrix, and applying the reduced row echelon form method to the augmented matrix.
 
-> 💡 The **reduced** row echelon form is a more restrictive set of the row echelon form, with an additional rule of having only zeros in the same column as the pivot 1's
+> 💡 The **reduced** row echelon form is a more restrictive set of the row echelon form, with an additional rule of having only zeros in the same column as the pivot 1's.
 >
 > For example:
 >
@@ -509,6 +504,20 @@ For example, if a matrix takes a 3D space and compresses it to a 2D space, its r
 Watch [this video](https://www.youtube.com/watch?v=uQhTuRlWMxw) (3Blue1Brown again) to have a visual representation of the rank.
 
 We can compute the rank of a matrix by **counting the number of non-zero rows in its reduced row echelon form**.
+
+Let's say we have the following $RREF$:
+
+$$
+\left[
+    \begin{array}{ccc}
+    1 & 2 & 3 \\
+    0 & 1 & 2 \\
+    0 & 0 & 0
+    \end{array}
+\right]
+$$
+
+The rank of this matrix would be $2$. Simple!
 
 ## Resources
 
