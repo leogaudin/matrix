@@ -11,7 +11,7 @@
 - [Exercises](#exercises) 🏋🏻
     - [00 - Add, Subtract and Scale](#00---add-subtract-and-scale) 🔣
     - [01 - Linear combination](#01---linear-combination) 🔗
-    - [02 - Linear interpolation](#02---linear-interpolation) 1️⃣1️
+    - [02 - Linear interpolation](#02---linear-interpolation) 1️⃣
     - [03 - Dot product](#03---dot-product) 🎯
     - [04 - Norm](#04---norm) 📏
     - [05 - Cosine](#05---cosine) 📐
