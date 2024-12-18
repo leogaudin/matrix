@@ -1,10 +1,8 @@
 #[path = "./structs.rs"]
 mod structs;
 use structs::{Matrix, Vector};
-use colored::*;
 
 pub fn test_00() {
-	println!("\nTESTING {}", "EX00".bold());
     let mut u = Vector::from(vec![2., 3.]);
     let v = Vector::from(vec![5., 7.]);
     u.add(&v);
