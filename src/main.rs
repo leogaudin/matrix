@@ -28,19 +28,28 @@ use ex12::test_12;
 mod ex13;
 use ex13::test_13;
 
+use colored::Colorize;
+
 fn main() {
-    test_00();
-    test_01();
-    test_02();
-    test_03();
-    test_04();
-    test_05();
-    test_06();
-    test_07();
-    test_08();
-    test_09();
-    test_10();
-    test_11();
-    test_12();
-    test_13();
+    let tests: Vec<(&str, fn())> = vec![
+        ("00 - Add, Subtract and Scale", test_00),
+        ("01 - Linear combination", test_01),
+        ("02 - Linear interpolation", test_02),
+        ("03 - Dot product", test_03),
+        ("04 - Norm", test_04),
+        ("05 - Cosine", test_05),
+        ("06 - Cross product", test_06),
+        ("07 - Matrix multiplication", test_07),
+        ("08 - Trace", test_08),
+        ("09 - Transpose", test_09),
+        ("10 - Row echelon form", test_10),
+        ("11 - Determinant", test_11),
+        ("12 - Inverse", test_12),
+        ("13 - Rank", test_13),
+    ];
+
+    for (title, test) in tests {
+        println!("Test {}", title.bold());
+        test();
+    }
 }
