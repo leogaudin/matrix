@@ -42,9 +42,9 @@ impl<K: std::fmt::Display + Copy> From<(Vec<K>, (usize, usize))> for Matrix<K> {
         }
 
         let mut row_major = Vec::new();
-        for i in 0..data.1 .0 {
-            for j in 0..data.1 .1 {
-                row_major.push(data.0[j * data.1 .0 + i]);
+        for r in 0..data.1 .0 {
+            for c in 0..data.1 .1 {
+                row_major.push(data.0[c * data.1 .0 + r]);
             }
         }
 
@@ -166,12 +166,12 @@ impl<
         self.shape = shape;
     }
 
-    pub fn get(&self, i: usize, j: usize) -> K {
-        return self.data[i * self.shape.1 + j];
+    pub fn get(&self, r: usize, c: usize) -> K {
+        return self.data[r * self.shape.1 + c];
     }
 
-    pub fn set(&mut self, i: usize, j: usize, value: K) {
-        self.data[i * self.shape.1 + j] = value;
+    pub fn set(&mut self, r: usize, c: usize, value: K) {
+        self.data[r * self.shape.1 + c] = value;
     }
 
     // Time: O(n) − Space: O(1)
@@ -225,9 +225,9 @@ impl<
     pub fn transpose(&mut self) {
         let mut result: Vec<K> = Vec::new();
 
-        for j in 0..self.shape.1 {
-            for i in 0..self.shape.0 {
-                result.push(self.get(i, j));
+        for c in 0..self.shape.1 {
+            for r in 0..self.shape.0 {
+                result.push(self.get(r, c));
             }
         }
 
@@ -251,15 +251,15 @@ impl<
 
         let mut result: Vector<K> = Vector::from(vec![self.data[0]; self.shape.0]);
 
-        for j in 0..self.shape.1 {
+        for c in 0..self.shape.1 {
             let mut column: Vec<K> = Vec::new();
-            for i in 0..self.shape.0 {
-                column.push(self.get(i, j));
+            for r in 0..self.shape.0 {
+                column.push(self.get(r, c));
             }
             let mut vector: Vector<K> = Vector::from(column);
-            vector.scl(vec.flat()[j]);
+            vector.scl(vec.flat()[c]);
 
-            if j == 0 {
+            if c == 0 {
                 result = vector;
             } else {
                 result.add(&vector);
@@ -287,10 +287,10 @@ impl<
 
         let mut result: Vec<Vec<K>> = Vec::new(); // p elements of length n
 
-        for j in 0..mat_shape.1 {
+        for c in 0..mat_shape.1 {
             let mut column: Vec<K> = Vec::new();
-            for i in 0..mat_shape.0 {
-                column.push(mat_flat[i * mat_shape.1 + j]);
+            for r in 0..mat_shape.0 {
+                column.push(mat_flat[r * mat_shape.1 + c]);
             }
             // p mul_vecs:
             // Each one has time complexity nm → mul_mat: O(nmp)
@@ -312,8 +312,8 @@ impl<
         }
 
         let mut sum = self.data[0];
-        for i in 1..self.shape.0 {
-            sum = sum + self.get(i, i);
+        for r in 1..self.shape.0 {
+            sum = sum + self.get(r, r);
         }
         return sum;
     }
@@ -517,16 +517,16 @@ impl<
 // print! and println!
 impl<K: std::fmt::Display> fmt::Display for Matrix<K> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        for i in 0..self.shape.0 {
+        for r in 0..self.shape.0 {
             write!(f, "[")?;
-            for j in 0..self.shape.1 {
-                write!(f, "{}", self.data[i * self.shape.1 + j])?;
-                if j < self.shape.1 - 1 {
+            for c in 0..self.shape.1 {
+                write!(f, "{}", self.data[r * self.shape.1 + c])?;
+                if c < self.shape.1 - 1 {
                     write!(f, ", ")?;
                 }
             }
             write!(f, "]")?;
-            if i < self.shape.0 - 1 {
+            if r < self.shape.0 - 1 {
                 writeln!(f)?;
             }
         }
