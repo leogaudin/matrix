@@ -47,7 +47,7 @@ This exercise is pretty straightforward:
 ### 01 - Linear combination
 
 > ```rust
-> fn linear_combination<K>(u: &[Vector<K>], coefs: &[K]) -> Vector<K>;
+> fn linear_combination(u: &[Vector<K>], coefs: &[K]) -> Vector<K>;
 > ```
 >
 > Maximum time complexity : $O(n)$
@@ -61,7 +61,7 @@ For example, the linear combination of the vectors $[1, 2]$ and $[3, 4]$ with th
 ### 02 - Linear interpolation
 
 > ```rust
-> fn lerp<V>(u: V, v: V, t: f32) -> V;
+> fn lerp(u: V, v: V, t: f32) -> V;
 > ```
 >
 > Maximum time complexity : $O(n)$
@@ -106,9 +106,7 @@ With all these tips, you should be able to implement `lerp` in one line!
 ### 03 - Dot product
 
 > ```rust
-> impl<K> Vector<K> {
->   fn dot<K>(&self, v: Vector<K>) -> K;
-> }
+> fn dot(&self, v: Vector<K>) -> K;
 > ```
 >
 > Maximum time complexity : $O(n)$
@@ -136,11 +134,9 @@ Simple.
 ### 04 - Norm
 
 > ```rust
-> impl<K> Vector<K> {
->   fn norm_1(&self) -> f32;
->   fn norm(&self) -> f32;
->   fn norm_inf(&self) -> f32;
-> }
+> fn norm_1(&self) -> f32;
+> fn norm(&self) -> f32;
+> fn norm_inf(&self) -> f32;
 > ```
 >
 > Maximum time complexity : $O(n)$
@@ -178,7 +174,7 @@ As the subject says, *"use the functions you wrote during the two previous exerc
 ### 06 - Cross product
 
 > ```rust
-> fn cross_product<K>(u: &Vector<K>, v: &Vector<K>) -> Vector<K>;
+> fn cross_product(u: &Vector<K>, v: &Vector<K>) -> Vector<K>;
 > ```
 
 The cross product of two vectors outputs a vector that is perpendicular to the plane formed by the two vectors.
@@ -207,8 +203,8 @@ However, it has other interesting properties, have a look at the [Cross product]
 ### 07 - Matrix multiplication
 
 > ```rust
-> fn mul_vec<K>(&mut self, vec: Vector<K>) -> Vector<K>;
-> fn mul_mat<K>(&mut self, mat: Matrix<K>) -> Matrix<K>;
+> fn mul_vec(&self, vec: Vector<K>) -> Vector<K>;
+> fn mul_mat(&self, mat: Matrix<K>) -> Matrix<K>;
 > ```
 >
 > Maximum time complexity:
@@ -294,7 +290,7 @@ Implementing it is simply two nested loops, swapping the elements of the matrix.
 ### 10 - Row echelon form
 
 > ```rust
-> pub fn row_echelon(&self) -> Matrix<K>;
+> fn row_echelon(&self) -> Matrix<K>;
 > ```
 >
 > Maximum time complexity : $O(n^3)$
@@ -363,7 +359,7 @@ Implementing this as code is a very complex task, so I suggest you look at the [
 ### 11 - Determinant
 
 > ```rust
-> pub fn determinant(&self) -> K;
+> fn determinant(&self) -> K;
 > ```
 >
 > Maximum time complexity : $O(n^3)$
