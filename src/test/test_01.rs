@@ -1,6 +1,4 @@
-#[path = "./structs.rs"]
-mod structs;
-use structs::Vector;
+use crate::core::Vector;
 
 pub fn linear_combination<
     K: std::fmt::Display

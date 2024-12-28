@@ -1,6 +1,4 @@
-#[path = "./structs.rs"]
-mod structs;
-use structs::Matrix;
+use crate::core::Matrix;
 
 pub fn test_09() {
     let mut u = Matrix::from(vec![vec![1., 2.], vec![3., 4.]]);

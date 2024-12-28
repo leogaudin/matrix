@@ -1,6 +1,4 @@
-#[path = "./structs.rs"]
-mod structs;
-use structs::Vector;
+use crate::core::Vector;
 
 pub fn angle_cos<
     K: std::fmt::Display

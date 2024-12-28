@@ -1,34 +1,6 @@
-mod structs;
-mod ex00;
-use ex00::test_00;
-mod ex01;
-use ex01::test_01;
-mod ex02;
-use ex02::test_02;
-mod ex03;
-use ex03::test_03;
-mod ex04;
-use ex04::test_04;
-mod ex05;
-use ex05::test_05;
-mod ex06;
-use ex06::test_06;
-mod ex07;
-use ex07::test_07;
-mod ex08;
-use ex08::test_08;
-mod ex09;
-use ex09::test_09;
-mod ex10;
-use ex10::test_10;
-mod ex11;
-use ex11::test_11;
-mod ex12;
-use ex12::test_12;
-mod ex13;
-use ex13::test_13;
-mod ex14;
-use ex14::test_14;
+mod core;
+mod test;
+use test::*;
 
 use colored::Colorize;
 

@@ -1,6 +1,4 @@
-#[path = "./structs.rs"]
-mod structs;
-use structs::Vector;
+use crate::core::Vector;
 
 fn cross_product<
     K: std::fmt::Display

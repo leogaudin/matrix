@@ -1,6 +1,4 @@
-#[path ="./structs.rs"]
-mod structs;
-use structs::Vector;
+use crate::core::Vector;
 
 pub fn test_04() {
     let u = Vector::from(vec![0., 0., 0.]);

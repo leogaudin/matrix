@@ -1,6 +1,4 @@
-#[path = "./structs.rs"]
-mod structs;
-use structs::Matrix;
+use crate::core::Matrix;
 
 pub fn projection(fov: f32, ratio: f32, near: f32, far: f32) -> Matrix<f32> {
     let mut projection_matrix: Matrix<f32> = Matrix::from(
