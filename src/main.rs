@@ -27,6 +27,8 @@ mod ex12;
 use ex12::test_12;
 mod ex13;
 use ex13::test_13;
+mod ex14;
+use ex14::test_14;
 
 use colored::Colorize;
 
@@ -46,6 +48,7 @@ fn main() {
         ("11 - Determinant", test_11),
         ("12 - Inverse", test_12),
         ("13 - Rank", test_13),
+        ("14 - Projection matrix", test_14),
     ];
 
     for (title, test) in tests {

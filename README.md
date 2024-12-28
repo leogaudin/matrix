@@ -23,6 +23,8 @@
     - [11 - Determinant](#11---determinant) 📊
     - [12 - Inverse](#12---inverse) 🔁
     - [13 - Rank](#13---rank) 📈
+    - [14 - Bonus: Projection matrix](#14---bonus-projection-matrix) 📽️
+    - [15 - Bonus: Complex vector spaces](#15---bonus-complex-vector-spaces) 🧙
 - [Resources](#resources) 📖
 
 ## Exercises
@@ -515,6 +517,55 @@ $$
 
 The rank of this matrix would be $2$. Simple!
 
+### 14 - Bonus: Projection matrix
+
+> ```rust
+> fn projection(fov: f32, ratio: f32, near: f32, far: f32) -> Matrix<f32>;
+> ```
+
+The projection matrix is a matrix that transforms a 3D space into a 2D space, as seen from a camera.
+
+Remember that the initial purpose of matrices is precisely to represent transformations, including mapping 3D space into 2D space.
+
+Computer graphics can be really tricky, but luckily OpenGL has some documentation that can help us, see the [OpenGL Projection Matrix](https://www.songho.ca/opengl/gl_projectionmatrix.html) page.
+
+**I recommend you read it thoroughly**, as they will explain everything better and more accurately than here.
+
+Based on the `fov`, `ratio`, `near` and `far` parameters, they provide the following projection matrix (see [here](https://www.songho.ca/opengl/gl_projectionmatrix.html#perspective)):
+
+$$
+\begin{bmatrix}
+\frac{near}{right} & 0 & 0 & 0 \\
+0 & \frac{near}{top} & 0 & 0 \\
+0 & 0 & -\frac{far + near}{far - near} & -\frac{2 \times far \times near}{far - near} \\
+0 & 0 & -1 & 0
+\end{bmatrix}
+$$
+
+However, the subject indicates that we do not have the `right` and `top` values, but we can calculate them using the `fov` and `ratio` parameters.
+
+Once again, the [documentation](https://www.songho.ca/opengl/gl_projectionmatrix.html#fov) helps us with that:
+
+$$
+tangent = \tan\left(\frac{fov}{2}\right)
+$$
+
+$$
+top = near \times tangent
+$$
+
+$$
+right = top \times ratio
+$$
+
+> ⚠️ The `fov` has to be converted from degrees to radians.
+
+Now that we have all necessary values, we can calculate the projection matrix!
+
+### 15 - Bonus: Complex vector spaces
+
+This last bonus is not really an exercise, and it is a matter of having implemented all the previous exercises with a generic type `K`.
+
 ## Resources
 
 - [📺 YouTube − The Lp Norm for Vectors and Functions](https://www.youtube.com/watch?v=NKuLYRui-NU)
@@ -523,3 +574,4 @@ The rank of this matrix would be $2$. Simple!
 - [📖 Rosetta Code − Reduced row echelon form](https://rosettacode.org/wiki/Reduced_row_echelon_form)
 - [📺 YouTube − Finding the Inverse of a 3 x 3 Matrix using Determinants and Cofactors](https://www.youtube.com/watch?v=YvjkPF6C_LI) ($n^4$ time complexity)
 - [📺 YouTube − Inverse Matrix Using Gauss-Jordan / Row Reduction](https://www.youtube.com/watch?v=cJg2AuSFdjw)
+- [📖 OpenGL − Projection Matrix](https://www.songho.ca/opengl/gl_projectionmatrix.html)
