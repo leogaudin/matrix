@@ -566,6 +566,10 @@ Now that we have all necessary values, we can calculate the projection matrix!
 
 This last bonus is not really an exercise, and it is a matter of having implemented all the previous exercises with a generic type `K`.
 
+Once again, play with Rust's traits to implement the operations for complex numbers.
+
+> 💡 To make the `norm` part easier, you can simply keep a Complex number without converting it to `f32`, setting the imaginary part to 0.
+
 ## Resources
 
 - [📺 YouTube − The Lp Norm for Vectors and Functions](https://www.youtube.com/watch?v=NKuLYRui-NU)

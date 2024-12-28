@@ -1,9 +1,6 @@
 use std::{fmt, ops};
 use crate::core::matrix::Matrix;
-
-pub fn to_f32<K: std::fmt::Display>(a: K) -> f32 {
-    return a.to_string().parse::<f32>().unwrap();
-}
+use crate::operations::Operations;
 
 // Struct
 pub struct Vector<K: std::fmt::Display> {
@@ -72,9 +69,11 @@ impl<
             + std::ops::Mul<Output = K>
             + std::ops::Div<Output = K>
             + std::cmp::PartialEq
+            + std::cmp::PartialOrd
             + std::ops::Neg<Output = K>
             + Default
-            + Copy,
+            + Copy
+            + Operations
     > Vector<K>
 {
     pub fn shape(&self) -> (usize, usize) {
@@ -110,7 +109,7 @@ impl<
     }
 
     // Time: O(n) − Space: O(1)
-    pub fn dot(&self, v: Vector<K>) -> f32 {
+    pub fn dot(&self, v: Vector<K>) -> K {
         if self.shape() != v.shape() || self.flat().len() != v.flat().len() {
             panic!(
                 "Shapes {:?} and {:?} are incompatible",
@@ -121,40 +120,40 @@ impl<
         let u = self.flat();
         let v = v.flat();
 
-        let mut sum: f32 = f32::default();
+        let mut sum: K = K::default();
         for i in 0..self.flat().len() {
-            sum = sum + to_f32(u[i] * v[i]);
+            sum = sum + u[i] * v[i];
         }
 
         return sum;
     }
 
     // Time: O(n) − Space: O(1)
-    pub fn norm_1(&self) -> f32 {
+    pub fn norm_1(&self) -> K {
         // Manhattan
-        let mut sum = f32::default();
+        let mut sum = K::default();
         for i in 0..self.flat().len() {
-            sum = sum + to_f32(self.matrix.data[i]).abs();
+            sum = sum + self.matrix.data[i].abs();
         }
         return sum;
     }
 
     // Time: O(n) − Space: O(1)
-    pub fn norm(&self) -> f32 {
+    pub fn norm(&self) -> K {
         // Euclidian
-        let mut squared_sum = to_f32(self.matrix.data[0]).powi(2);
-        for i in 1..self.flat().len() {
-            squared_sum = squared_sum + to_f32(self.matrix.data[i]).powi(2);
+        let mut res = K::default();
+        for i in 0..self.flat().len() {
+            res = res + self.matrix.data[i].abs() * self.matrix.data[i].abs();
         }
-        return squared_sum.powf(0.5);
+        return res.sqrt();
     }
 
     // Time: O(n) − Space: O(1)
-    pub fn norm_inf(&self) -> f32 {
+    pub fn norm_inf(&self) -> K {
         // Supremum
-        let mut max = f32::default();
+        let mut max = K::default();
         for i in 0..self.flat().len() {
-            let abs = to_f32(self.matrix.data[i]).abs();
+            let abs = self.matrix.data[i].abs();
             if abs > max {
                 max = abs;
             }

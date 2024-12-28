@@ -1,4 +1,5 @@
 use crate::core::Vector;
+use crate::operations::Operations;
 
 pub fn linear_combination<
     K: std::fmt::Display
@@ -7,9 +8,11 @@ pub fn linear_combination<
         + std::ops::Mul<Output = K>
         + std::ops::Div<Output = K>
         + std::cmp::PartialEq
+            + std::cmp::PartialOrd
         + std::ops::Neg<Output = K>
         + Default
         + Copy
+        + Operations
 >(
     v: &[Vector<K>],
     a: &[K],

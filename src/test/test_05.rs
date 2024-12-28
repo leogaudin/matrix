@@ -1,4 +1,5 @@
 use crate::core::Vector;
+use crate::operations::Operations;
 
 pub fn angle_cos<
     K: std::fmt::Display
@@ -7,13 +8,15 @@ pub fn angle_cos<
         + std::ops::Mul<Output = K>
         + std::ops::Div<Output = K>
         + std::cmp::PartialEq
+            + std::cmp::PartialOrd
         + std::ops::Neg<Output = K>
         + Default
-        + Copy,
+        + Copy
+        + Operations
 >(
     u: &Vector<K>,
     v: &Vector<K>,
-) -> f32 {
+) -> K {
     return u.dot(v.clone()) / (u.norm() * v.norm());
 }
 

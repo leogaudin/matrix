@@ -1,4 +1,4 @@
-use crate::core::Vector;
+use crate::core::{Vector, Complex};
 
 pub fn test_04() {
     let u = Vector::from(vec![0., 0., 0.]);
@@ -10,4 +10,7 @@ pub fn test_04() {
     let u = Vector::from(vec![-1., -2.]);
     println!("{}, {}, {}\n", u.norm_1(), u.norm(), u.norm_inf());
     // 3.0, 2.236067977, 2.0
+
+    let u = Vector::from(vec![Complex::from((1., 1.)), Complex::from((1., 1.))]);
+    println!("{}, {}, {}\n", u.norm_1(), u.norm(), u.norm_inf());
 }

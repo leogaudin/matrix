@@ -28,6 +28,6 @@ pub fn test_14() {
     let string = projection_matrix.to_string();
     let string = string.replace("[", "");
     let string = string.replace("]", "");
-    println!("{}", string);
+    println!("{}\n", string);
     std::fs::write("proj", string).unwrap();
 }

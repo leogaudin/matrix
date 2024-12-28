@@ -1,5 +1,6 @@
 mod core;
 mod test;
+mod operations;
 use test::*;
 
 use colored::Colorize;
@@ -21,6 +22,7 @@ fn main() {
         ("12 - Inverse", test_12),
         ("13 - Rank", test_13),
         ("14 - Projection matrix", test_14),
+        ("15 - Complex numbers", test_15),
     ];
 
     for (title, test) in tests {

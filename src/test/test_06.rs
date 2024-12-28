@@ -1,4 +1,5 @@
 use crate::core::Vector;
+use crate::operations::Operations;
 
 fn cross_product<
     K: std::fmt::Display
@@ -7,9 +8,11 @@ fn cross_product<
         + std::ops::Mul<Output = K>
         + std::ops::Div<Output = K>
         + std::cmp::PartialEq
+            + std::cmp::PartialOrd
         + std::ops::Neg<Output = K>
         + Default
-        + Copy,
+        + Copy
+        + Operations
 >(
     u: &Vector<K>,
     v: &Vector<K>,

@@ -1,5 +1,6 @@
 use std::{fmt, ops};
 use crate::core::vector::Vector;
+use crate::operations::Operations;
 
 // Struct
 pub struct Matrix<K: std::fmt::Display> {
@@ -133,9 +134,11 @@ impl<
             + std::ops::Mul<Output = K>
             + std::ops::Div<Output = K>
             + std::cmp::PartialEq
+            + std::cmp::PartialOrd
             + std::ops::Neg<Output = K>
             + Default
-            + Copy,
+            + Copy
+            + Operations
     > Matrix<K>
 {
     pub fn shape(&self) -> (usize, usize) {
