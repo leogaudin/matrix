@@ -311,8 +311,8 @@ impl<
             panic!("The matrix is not square");
         }
 
-        let mut sum = self.data[0];
-        for r in 1..self.shape.0 {
+        let mut sum = K::default();
+        for r in 0..self.shape.0 {
             sum = sum + self.get(r, r);
         }
         return sum;
@@ -660,8 +660,8 @@ impl<
         let u = self.flat();
         let v = v.flat();
 
-        let mut sum: f32 = to_f32(u[0] * v[0]);
-        for i in 1..self.flat().len() {
+        let mut sum: f32 = f32::default();
+        for i in 0..self.flat().len() {
             sum = sum + to_f32(u[i] * v[i]);
         }
 
@@ -671,8 +671,8 @@ impl<
     // Time: O(n) − Space: O(1)
     pub fn norm_1(&self) -> f32 {
         // Manhattan
-        let mut sum = to_f32(self.matrix.data[0]).abs();
-        for i in 1..self.flat().len() {
+        let mut sum = f32::default();
+        for i in 0..self.flat().len() {
             sum = sum + to_f32(self.matrix.data[i]).abs();
         }
         return sum;
@@ -691,8 +691,8 @@ impl<
     // Time: O(n) − Space: O(1)
     pub fn norm_inf(&self) -> f32 {
         // Supremum
-        let mut max = to_f32(self.matrix.data[0]).abs();
-        for i in 1..self.flat().len() {
+        let mut max = f32::default();
+        for i in 0..self.flat().len() {
             let abs = to_f32(self.matrix.data[i]).abs();
             if abs > max {
                 max = abs;
