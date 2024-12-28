@@ -8,7 +8,7 @@ fn cross_product<
         + std::ops::Mul<Output = K>
         + std::ops::Div<Output = K>
         + std::cmp::PartialEq
-            + std::cmp::PartialOrd
+        + std::cmp::PartialOrd
         + std::ops::Neg<Output = K>
         + Default
         + Copy
