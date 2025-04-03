@@ -1,4 +1,7 @@
-<h1 align="center">matrix</h1>
+<div align='center'>
+	<h1>matrix</h1>
+	<img src="https://img.shields.io/badge/-125%2F100-success?logo=42&logoColor=fff" />
+</div>
 
 **`matrix` is a 42 project covering linear algebra.**
 
